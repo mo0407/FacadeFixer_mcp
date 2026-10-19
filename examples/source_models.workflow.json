@@ -1,0 +1,21 @@
+{
+  "fixture": "Real sample photo, coordinates are for software verification only, not its actual geolocation",
+  "site": {
+    "building_id": "source-model-sample",
+    "name": "本地模型 MCP 链路验证",
+    "longitude": 120.15,
+    "latitude": 30.28,
+    "building_height_m": 18,
+    "building_radius_m": 10
+  },
+  "planning": {"capture_heights_m": [5, 15]},
+  "project": {
+    "project_id": "source-model-sample",
+    "name": "本地模型 MCP 链路验证",
+    "period": "软件验证",
+    "coordinate_note": "演示坐标，不代表照片定位"
+  },
+  "image_paths": ["real_photo_sample/facade.jpg"],
+  "detection": {"method": "source", "model_profile": "yolo12m", "threshold": 0.25},
+  "mask": {"method": "source", "model_profile": "mobile_sam"}
+}

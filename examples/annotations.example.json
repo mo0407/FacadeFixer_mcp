@@ -1,0 +1,12 @@
+{
+  "schema": "bbox_class_only_v1",
+  "images": [
+    {
+      "image_path": "./photos/facade-001.jpg",
+      "coordinate_space": "original_pixels",
+      "defects": [
+        {"id": 1, "class_code": "C", "class_name": "Concrete_Crack", "bbox_xyxy": [120, 60, 250, 400]}
+      ]
+    }
+  ]
+}

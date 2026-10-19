@@ -1,0 +1,31 @@
+{
+  "site": {
+    "building_id": "building-001",
+    "name": "建筑巡检项目",
+    "longitude": 120.15,
+    "latitude": 30.28,
+    "building_height_m": 30,
+    "building_radius_m": 12
+  },
+  "planning": {
+    "stand_off_m": 10,
+    "capture_heights_m": [5, 15, 25],
+    "waypoint_spacing_m": 8,
+    "speed_m_s": 2
+  },
+  "project": {
+    "project_id": "building-001",
+    "name": "建筑巡检项目",
+    "period": "待填写",
+    "inspection_date": "待填写",
+    "responsible_party": "待填写"
+  },
+  "image_paths": ["./photos/facade-001.jpg"],
+  "detection": {
+    "method": "annotations",
+    "annotation_path": "./annotations.example.json",
+    "threshold": 0.25
+  },
+  "mask": {"method": "opencv"},
+  "allow_paid_api": false
+}

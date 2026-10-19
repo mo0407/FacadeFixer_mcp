@@ -1,0 +1,33 @@
+{
+  "fixture": "Real sample photo; building coordinate is demonstration only, not photo geolocation",
+  "site": {
+    "building_id": "sample-building",
+    "name": "真实照片软件链路验证",
+    "longitude": 120.15,
+    "latitude": 30.28,
+    "building_height_m": 18,
+    "building_radius_m": 10
+  },
+  "planning": {
+    "capture_heights_m": [
+      5,
+      15
+    ]
+  },
+  "project": {
+    "project_id": "sample-building",
+    "name": "真实照片软件链路验证",
+    "period": "软件验证",
+    "coordinate_note": "演示坐标，不代表照片定位"
+  },
+  "image_paths": [
+    "facade.jpg"
+  ],
+  "detection": {
+    "method": "local_yolo",
+    "threshold": 0.25
+  },
+  "mask": {
+    "method": "opencv"
+  }
+}

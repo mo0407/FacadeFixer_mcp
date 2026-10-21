@@ -17,6 +17,7 @@ flowchart LR
 
 - [快速开始](#快速开始)
 - [服务总览](#服务总览)
+- [MCP 使用流程](#mcp-使用流程)
 - [公共数据约定](#公共数据约定)
 - [Survey MCP](#survey-mcp)：建筑资料、航线草案、图片归档、已有检测接口。
 - [Model MCP](#model-mcp)：本地检测模型、分割模型、正负点精修。
@@ -89,6 +90,63 @@ Model MCP 还需要另行准备 `FacadeFixer-main` 源码、模型运行环境�
 ```
 
 HTTP 使用 MCP 协议，各工具通过 MCP `tools/call` 调用。下文 JSON 是工具的 `arguments` 示例。默认监听 `127.0.0.1`；跨机器部署还需配置鉴权与可访问的资产资源服务。
+
+## MCP 使用流程
+
+### 从图片到报告
+
+下面以本地检测模型为例。固定工作流按节点顺序执行；AI 对话模式由客户端中的语言模型选择工具，也可以只执行检测或分割等单一步骤。
+
+```mermaid
+flowchart TD
+    A["准备输入：建筑资料、已有图片、模型配置"] --> B{"选择使用方式"}
+    B --> C["固定工作流：CLI + LangGraph"]
+    B --> D["AI 对话：支持 MCP 的客户端"]
+    C --> E["MCP 连接层：默认 stdio，可选 HTTP"]
+    D --> E
+    E --> G["① Survey MCP：校验建筑、生成航线草案、整理已有图片"]
+    G --> H["② Model MCP：指定检测模型，例如 YOLO12"]
+    H --> I["检测结果：缺陷类型、bbox、置信度"]
+    I --> J{"选择 Mask 生成方式"}
+    J --> K["③ Model MCP：本地分割，例如 MobileSAM"]
+    J --> L["③ Mask MCP：OpenCV 或已授权的外部 API"]
+    K --> M["分割结果：Mask、叠加图、像素面积"]
+    L --> M
+    M --> N["④ Report MCP：生成草稿、校验、渲染"]
+    N --> O["输出：报告 JSON、HTML、证据文件"]
+    O --> P["用户查看与人工复核"]
+```
+
+现场图片采集由用户完成，航线草案不会自动驱动无人机。上图展示已有图片的处理过程；固定工作流不会等待现场采集。模型检测也可以通过 Survey 的已有标注、HTTP 或 local_yolo 适配方式替换。
+
+模型选择由工作流配置传入，例如下面的配置片段表示 YOLO12 输出类别和框，MobileSAM 生成 Mask：
+
+```json
+{
+  "detection": {"method": "source", "model_profile": "yolo12m", "threshold": 0.25},
+  "mask": {"method": "source", "model_profile": "mobile_sam"}
+}
+```
+
+将上述字段写入包含建筑资料和图片路径的完整配置后运行，完整示例见 [source_models.workflow.json](examples/source_models.workflow.json)。当前固定工作流一次使用一个分割 profile，不会按缺陷类别自动切换模型；`unet_crack` 仅接受裂缝 C、网裂 M，其他类别会报错。
+
+### 客户端、MCP 与模型如何连接
+
+```mermaid
+flowchart LR
+    A["用户：执行命令或发送对话"] --> B["调用方：LangGraph / AI 客户端"]
+    B -->|"MCP 协议：stdio 或 HTTP"| C["四个 MCP 服务"]
+    C --> D["本地算法与模型：YOLO、SAM、OpenCV"]
+    C --> E["外部检测或分割 API：仅在选择对应方式时"]
+    C --> F["报告生成程序"]
+    D --> G["本地工作目录：结果、证据、调用记录"]
+    E --> G
+    F --> G
+```
+
+HTTP 默认端口是程序连接 MCP 的接口端口，**不是上传图片、选择模型的网页页面**。仅在 HTTP 模式启动时监听，默认绑定本机 `127.0.0.1`。使用 CLI 固定工作流时，程序通过 stdio 自动启动并连接服务，无需手动开放 8761～8764 端口。
+
+MCP 的通信方式与模型运行位置是两个独立配置：本机 HTTP MCP 仍可运行本地模型，stdio MCP 也可调用已配置的外部 API。AI 对话模式还可能由客户端连接远程语言模型；本地 source 模型固定工作流不需要语言模型 API Key。
 
 ## 公共数据约定
 

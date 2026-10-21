@@ -168,6 +168,21 @@ def test_water_stain_mapping_retains_diagnostic_uncertainty(image_path, store, d
     assert any("cause of leakage require review" in warning for warning in result["warnings"])
 
 
+@pytest.mark.parametrize("code,label,expected", [
+    ("M", "Meshcrack", "C"), (None, "Craquelure", "C"),
+    ("L", "白华", "E"), (None, "Efflorescence", "E"),
+    ("L", "Water_Stain", "L"), ("L", "", "L"),
+])
+def test_canonical_detection_categories(tmp_path, image_path, store, code, label, expected):
+    manifest = write_manifest(tmp_path, image_path, [annotation(code=code, class_name=label)])
+    result = DetectionService(store).detect([str(image_path)], annotation_path=str(manifest))
+    row = result["images"][0]["defects"][0]
+    assert row["class_code"] == expected
+    assert row["original_class_name"] == label
+    if code and code != expected:
+        assert row["original_class_code"] == code
+
+
 def test_backend_http_failure_is_structured_and_does_not_leak_token(image_path, store, detector_server):
     url, state = detector_server
     state["status"] = 500

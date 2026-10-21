@@ -60,6 +60,16 @@ def defects():
             {"instance_id": "b", "class_code": "T", "bbox_xyxy": [40, 10, 70, 35]}]
 
 
+@pytest.mark.parametrize("code,profile,expected", [("M", "unet_crack", "C"), ("E", "mobile_sam", "E")])
+def test_model_masks_use_canonical_classes(setup, monkeypatch, code, profile, expected):
+    service, image = setup
+    simulated_worker(monkeypatch, service)
+    item = {**defects()[0], "class_code": code}
+    result = service.segment(str(image), [item], profile)
+    assert result["instances"][0]["class_code"] == expected
+    assert item["class_code"] == code
+
+
 def test_detect_preserves_unknowns_rounding_snapshot_and_provenance(setup, monkeypatch):
     service, image = setup
     simulated_worker(monkeypatch, service)

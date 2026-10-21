@@ -49,6 +49,19 @@ def defect(instance_id="crack-a", box=None, code="C"):
     return {"instance_id": instance_id, "class_code": code, "bbox_xyxy": box or [15, 5, 100, 90]}
 
 
+def test_legacy_mesh_and_efflorescence_round_trip(service, cracked_image):
+    inputs = [defect(code="M"), {**defect("deposit", code="L"), "class_name": "白华"}]
+    result = service.segment(str(cracked_image), inputs)
+    rows = result["instances"]
+    assert [row["class_code"] for row in rows] == ["C", "E"]
+    assert [row["original_class_code"] for row in rows] == ["M", "L"]
+    assert "generic_deposit_baseline_requires_efflorescence_review" in rows[1]["quality_flags"]
+    assert inputs[0]["class_code"] == "M"  # original inputs are immutable
+    refined = service.refine(str(cracked_image), result["annotation_manifest"]["path"])
+    assert [row["class_code"] for row in refined["instances"]] == ["C", "E"]
+
+
+
 def test_real_opencv_geometry_rle_artifacts_and_fresh_jobs(service, cracked_image):
     result = service.segment(str(cracked_image), [defect(), defect("overlap", [40, 20, 100, 90])])
     assert result["schema_version"] == "facade-mask/v1"

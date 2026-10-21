@@ -30,7 +30,7 @@ PROFILES = {
     "intersection": {"operation": "detection", "weights": ["model_weights/detection/yolo12m_building.pt", "model_weights/detection/yolo11m_building.pt", "model_weights/rtdetr-l-bst.pt"], "packages": ["torch", "ultralytics"], "source": "backend/detection_agent.py"},
     "mobile_sam": {"operation": "segmentation", "weights": ["model_weights/mobile_sam.pt"], "packages": ["torch", "torchvision", "ultralytics"], "source": "backend/run_sam_bbox_baseline.py", "interactive": True},
     "sam3": {"operation": "segmentation", "weights": ["model_weights/sam3.pt"], "packages": ["torch", "torchvision", "ultralytics"], "source": "backend/run_sam_bbox_baseline.py", "interactive": True},
-    "unet_crack": {"operation": "segmentation", "weights": ["model_weights/crack/model_unet_vgg_16_best.pt"], "packages": ["torch", "torchvision", "cv2"], "source": "backend/run_unet_crack_direct_baseline.py", "interactive": False, "class_codes": ["C", "M"]},
+    "unet_crack": {"operation": "segmentation", "weights": ["model_weights/crack/model_unet_vgg_16_best.pt"], "packages": ["torch", "torchvision", "cv2"], "source": "backend/run_unet_crack_direct_baseline.py", "interactive": False, "class_codes": ["C"]},
 }
 
 
@@ -256,7 +256,7 @@ class ModelService:
                     raise ModelError("INVALID_PARENT_MANIFEST", "Expected a facade-mask/v1 manifest.")
                 parent_artifact = {"path": str(parent_file), "sha256": hashlib.sha256(parent_bytes).hexdigest(), "job_id": parent.get("job_id")}
                 entries = parent.get("instances", [])
-                defects = [{key: value for key, value in row.items() if key in ("instance_id", "class_code", "class_name", "class_subtype", "bbox_xyxy")} for row in entries]
+                defects = [{key: value for key, value in row.items() if key in ("instance_id", "class_code", "class_name", "class_subtype", "bbox_xyxy", "original_class_code", "original_class_name")} for row in entries]
                 if sum(str(row.get("instance_id")) == instance_id for row in entries) != 1:
                     raise ModelError("INSTANCE_NOT_FOUND", "Select exactly one instance from the parent manifest.")
             validated = self.masks._validated(image_path, defects)
@@ -273,8 +273,8 @@ class ModelService:
                 for entry in parent["instances"]:
                     preserved[str(entry["instance_id"])]=self._read_mask(entry, (metadata["height"], metadata["width"]))
             selected = [row for row in validated["defects"] if not parent or str(row["instance_id"]) == instance_id]
-            if profile == "unet_crack" and any(row["class_code"] not in {"C", "M"} for row in selected):
-                raise ModelError("UNSUPPORTED_CLASS", "unet_crack only supports C and M crack instances; choose SAM for other classes.")
+            if profile == "unet_crack" and any(row["class_code"] != "C" for row in selected):
+                raise ModelError("UNSUPPORTED_CLASS", "unet_crack only supports canonical C crack instances (legacy M is normalized); choose SAM for other classes.")
             if selected:
                 raw = self._run(directory / "model", "segment", image_path=str(snapshot), model_profile=profile,
                                 defects=selected, positive_points=positive_points, negative_points=negative_points)

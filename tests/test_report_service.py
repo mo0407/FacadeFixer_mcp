@@ -75,6 +75,19 @@ def load_document(store, result):
     return json.loads(store.resolve_input(result["report_document"]["artifact_id"]).read_text(encoding="utf-8"))
 
 
+@pytest.mark.parametrize("code,label,expected", [("M", "Meshcrack", "C"), ("L", "白华", "E"), ("L", "Leakage", "L")])
+def test_report_normalizes_legacy_categories_without_rewriting_sources(report_fixture, code, label, expected):
+    service, store, segmentation, project = report_fixture
+    segmentation["images"][0]["instances"][0].update(class_code=code, class_name=label)
+    original = copy.deepcopy(segmentation)
+    result = service.build_draft(project, segmentation)
+    document = load_document(store, result)
+    assert document["defects"][0]["category_id"] == expected
+    assert document["defects"][0]["class_code"] == expected
+    assert document["source_data"]["segmentation_result"] == original
+    assert segmentation == original
+
+
 def test_unsupported_detection_is_visible_without_invented_mask(report_fixture):
     service,store,segmentation,project = report_fixture
     group = segmentation["images"][0]

@@ -21,7 +21,7 @@
 | `intersection` | 多模型共识 | 同上，至少两个不同模型支持同类同位置候选 |
 | `mobile_sam` | bbox/正负点 Mask | 复用源 baseline 的本地 Ultralytics SAM 调用方式 |
 | `sam3` | bbox/正负点 Mask | 本地 Ultralytics SAM3 路径；不依赖原生 SAM3 SDK 的 `triton` 导入路径 |
-| `unet_crack` | 裂缝 Mask | 复用源 UNet16 架构和预处理，CPU 安全加载，阈值 0.2；仅 C/M 类 |
+| `unet_crack` | 裂缝 Mask | 复用源 UNet16 架构和预处理，CPU 安全加载，阈值 0.2；仅 C 类（兼容旧 M） |
 
 合并使用 `max(IoU, intersection/smaller-area) >= 0.5` 分组，同一模型只贡献一次，坐标和分数取贡献者均值。这是明确记录的适配实现，与旧后端的模型成员和投票流程有差别。模型分数保持模型原意，不当成准确率。
 
@@ -68,7 +68,7 @@ MCP 客户端导入 `mcp.local.json`，模型可发现所有 21 个工具。服�
 [{"instance_id":"D-01","class_code":"C","bbox_xyxy":[120,65,245,395]}]
 ```
 
-类别沿用既有 C/M/P/S/T/R/D/V/L 契约。检测得到的 Bulging 等未知类单独保留，工作流把它们带入报告待处理条目，不删除也不伪造 Mask。U-Net 遇到非裂缝类别直接报错，应改选 SAM，或按类别分别调用。
+类别采用 C/P/S/T/R/D/V/L/E：C 合并线状裂缝与网裂，E 为独立白华类，L 为渗漏/潮湿。旧 M 自动归入 C；旧 L 仅在标签明确为白华时归入 E，保留原始来源。检测得到的 Bulging 等未知类单独保留，工作流把它们带入报告待处理条目，不删除也不伪造 Mask。U-Net 遇到非裂缝类别直接报错，应改选 SAM，或按类别分别调用。
 
 所有坐标均为原图存储像素：左上角零起点，xyxy 的最大边界不包含；检测小数框以 floor(min)/ceil(max) 包围取整。保留 EXIF 信息但不旋转栅格，检测与 Mask 坐标一致。Mask 限制在被冻结的 bbox 内，空结果仍保留实例和复核标记。RLE 统一使用现有 F order，在完整 JSON 资产中保存，MCP 返回值移除大体量 RLE。
 

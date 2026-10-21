@@ -128,7 +128,7 @@ flowchart TD
 }
 ```
 
-将上述字段写入包含建筑资料和图片路径的完整配置后运行，完整示例见 [source_models.workflow.json](examples/source_models.workflow.json)。当前固定工作流一次使用一个分割 profile，不会按缺陷类别自动切换模型；`unet_crack` 仅接受裂缝 C、网裂 M，其他类别会报错。
+将上述字段写入包含建筑资料和图片路径的完整配置后运行，完整示例见 [source_models.workflow.json](examples/source_models.workflow.json)。当前固定工作流一次使用一个分割 profile，不会按缺陷类别自动切换模型；`unet_crack` 仅接受裂缝 C（兼容旧网裂 M），其他类别会报错。
 
 ### 客户端、MCP 与模型如何连接
 
@@ -180,9 +180,13 @@ Mask 工具接收的单个缺陷：
 
 | 类别码 | 含义 | 类别码 | 含义 | 类别码 | 含义 |
 |---|---|---|---|---|---|
-| C | 线状裂缝 | M | 网裂 | P | 剥离 |
+| C | 裂缝（线状裂缝、网裂） | E | 白华（泛碱） | P | 剥离 |
 | S | 剥落 | T | 锈渍 | R | 锈蚀 |
 | D | 污染物 | V | 植被 | L | 渗漏/潮湿表征 |
+
+类别码统一为 C/P/S/T/R/D/V/L/E。旧 M 输入归入 C，并保留原始类别；旧 L 仅在名称或子类型明确为白华/泛碱/Efflorescence 时转为 E，其余保留 L，不根据旧 Mask 自动推断。历史文件不改写，新结果使用统一类别。
+
+新增类别不会改变已有模型权重或训练标签；模型必须输出明确白华标签，或由人工确认 E。OpenCV 的 E 暂复用上游 L 的通用污渍/沉积物算法，记录实际算法类别及人工复核标记，并非专用白华模型。API 分割对 L、E 使用独立定义。
 
 检测的原始名称仍被保留。`Bulging` 等未映射类别进入 `unmapped_defects` 并保留到报告待处理条目；不会生成替代 Mask 或虚构面积。`Water_Stain` 映射 L 只表示潮湿表征，渗漏原因仍需复核。
 
@@ -335,7 +339,7 @@ Mask 完整清单保存 F order RLE、实际前景像素面积和质量标记，
 | `intersection` | 共识检测 | 同上，候选需至少两个不同模型支持 |
 | `mobile_sam` | bbox/点提示分割 | 本地 MobileSAM，分割上述九类已给定的缺陷框 |
 | `sam3` | bbox/点提示分割 | 本地 Ultralytics SAM3 路径，加载前需考虑内存/显存 |
-| `unet_crack` | 裂缝分割 | 仅 C/M 类，使用源 UNet16 架构和预处理，二值阈值 0.2 |
+| `unet_crack` | 裂缝分割 | 仅 C（兼容旧 M） 类，使用源 UNet16 架构和预处理，二值阈值 0.2 |
 
 合并/共识使用本工程明示的三模型成员和投票规则，与旧后端流程存在适配差异，细节保存在 provenance 中。通用 COCO `yolo11n-seg.pt` 没有注册为建筑缺陷模型。
 

@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Any
 
 
+from .taxonomy import CLASS_NAMES, normalize_class
+
 SCHEMA_VERSION = "facade-report/v1"
 EVIDENCE_ROLES = {"original", "crop", "mask", "overlay", "location"}
 EVIDENCE_STATES = {
@@ -213,6 +215,11 @@ class ReportService:
                         "expert_conclusion": {"status": "pending_confirmation", "reviewer_id": None, "signed_at": None, "signature_artifact": None},
                         "evidence": self._evidence(defect, image_id, instance_id),
                     })
+                    normalized = normalize_class({**defect, "class_code": defect["category_id"], "class_name": defect["category_name"]})
+                    if normalized.get("class_code") in CLASS_NAMES:
+                        defect.update(normalized)
+                        defect["category_id"] = normalized["class_code"]
+                        defect["category_name"] = normalized["class_name"]
                     if prior_conclusion is not None:
                         defect["source_expert_conclusion"] = prior_conclusion
                     # Pixel measurements remain pixels. No bbox-derived or guessed m².

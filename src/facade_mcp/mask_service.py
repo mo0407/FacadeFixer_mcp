@@ -28,23 +28,21 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 from .storage import ArtifactStore
+from .taxonomy import CLASS_NAMES, normalize_class, opencv_code
 
 LOG = logging.getLogger(__name__)
 _ALGORITHM_LOCK = threading.RLock()
 _COLORS = [(255, 60, 60), (50, 220, 80), (50, 150, 255),
            (255, 190, 30), (220, 60, 255), (40, 230, 225)]
-CLASS_NAMES = {"C": "Linearcrack", "M": "Multicrack", "P": "Peeling",
-               "S": "Spalling", "T": "RustStain", "R": "Corrosion",
-               "D": "Contamination", "V": "Vegetation", "L": "Leakage"}
 _DEFINITIONS = {
-    "C": "visible linear crack at actual width; exclude joints and shadows",
-    "M": "visible network of fine cracks; keep individual thin branches",
+    "C": "visible linear or network cracks at actual width; keep thin branches; exclude joints and shadows",
     "P": "peeling coating/plaster including light curled flakes",
     "S": "material loss including exposed mortar, brick, aggregate and cavities",
     "T": "rust stain on the surface", "R": "visible corrosion/rust",
     "D": "surface contaminants; distinguish ground litter from wall stains using subtype",
     "V": "visible plant including fine leaves",
-    "L": "visible leakage deposits including mineral efflorescence where present",
+    "L": "visible water stains and damp areas; exclude white mineral efflorescence",
+    "E": "visible white salt/mineral deposits (efflorescence); exclude paint, glare and damp stains",
 }
 
 
@@ -141,6 +139,7 @@ class MaskService:
                 if not isinstance(defect, dict):
                     errors.append(f"{prefix} must be an object")
                     continue
+                defect = normalize_class(defect)
                 instance_id = defect.get("instance_id", defect.get("id"))
                 if (isinstance(instance_id, bool) or not isinstance(instance_id, (int, str))
                         or not str(instance_id).strip()):
@@ -177,7 +176,8 @@ class MaskService:
                     continue
                 normalized.append({"instance_id": instance_id, "class_code": code,
                                    "class_name": str(defect.get("class_name") or CLASS_NAMES[code]),
-                                   "class_subtype": subtype, "bbox_xyxy": box})
+                                   "class_subtype": subtype, "bbox_xyxy": box,
+                                   **{k: defect[k] for k in ("original_class_code", "original_class_name") if k in defect}})
         flags = ["stored_pixels_used_without_exif_rotation"] if orientation not in (None, 1) else []
         return {"valid": not errors, "errors": errors, "image_path": str(resolved) if resolved else None,
                 "width": width, "height": height, "source_sha256": source_sha256, "defects": normalized,
@@ -308,8 +308,11 @@ class MaskService:
                 module = self._module("skills/facade-opencv-mask/scripts/segment.py")
                 with _ALGORITHM_LOCK, redirect_stdout(sys.stderr):
                     cv2.setRNGSeed(20260928)
-                    patch, diagnostics = module.segment(rgb, box, defect["class_code"],
+                    patch, diagnostics = module.segment(rgb, box, opencv_code(defect),
                                                         defect.get("class_subtype", ""), 1000)
+                if defect["class_code"] == "E":
+                    diagnostics.setdefault("parameters", {}).update(legacy_algorithm_class="L", canonical_class="E")
+                    diagnostics.setdefault("quality_flags", []).append("generic_deposit_baseline_requires_efflorescence_review")
                 x1, y1, x2, y2 = box
                 if patch.shape != (y2 - y1, x2 - x1):
                     raise ValueError("Segmenter returned incorrect ROI dimensions")
@@ -490,7 +493,8 @@ class MaskService:
             raise ValueError("Refinement source image hash does not match the annotation manifest")
         rows = source_manifest["instances"]
         defects = [{key: row[key] for key in ("instance_id", "class_code", "class_name", "bbox_xyxy")}
-                   | {"class_subtype": row.get("class_subtype", "")} for row in rows]
+                   | {"class_subtype": row.get("class_subtype", "")}
+                   | {k: row[k] for k in ("original_class_code", "original_class_name") if k in row} for row in rows]
         validated = self._validated(str(source), defects)
         module = self._module("scripts/refine_api_masks.py")
         job_id, job_dir = self.store.create_job("mask_refine", {
@@ -509,7 +513,10 @@ class MaskService:
                 if row.get("mask", {}).get("sha256") and _sha(raw_path) != row["mask"]["sha256"]:
                     raise ValueError("Input mask hash has changed")
                 with _ALGORITHM_LOCK, redirect_stdout(sys.stderr):
-                    selected, candidate, diagnostics = module.refine(rgb, raw, defect["bbox_xyxy"], defect["class_code"])
+                    selected, candidate, diagnostics = module.refine(rgb, raw, defect["bbox_xyxy"], opencv_code(defect))
+                if defect["class_code"] == "E":
+                    diagnostics.update(legacy_algorithm_class="L", canonical_class="E")
+                    diagnostics.setdefault("flags", []).append("generic_deposit_baseline_requires_efflorescence_review")
                 paths = {}
                 for folder, array in (("raw_masks", raw), ("candidate_masks", candidate), ("instance_masks", selected)):
                     dest = job_dir / folder / f"instance_{index:05d}.png"

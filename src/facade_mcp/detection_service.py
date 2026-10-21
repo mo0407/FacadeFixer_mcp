@@ -25,16 +25,14 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 from PIL import Image
 
 
-CLASS_NAMES = {
-    "C": "Linearcrack", "M": "Meshcrack", "P": "Peeling",
-    "S": "Spalling", "T": "RustStain", "R": "Corrosion",
-    "D": "Dirt", "V": "Vegetation", "L": "Leakage",
-}
+from .taxonomy import CLASS_NAMES, canonical_code
+
 # Numeric model class IDs are intentionally not mapped: IDs vary by checkpoint.
 LABEL_CODES = {
     "concretecrack": "C", "tilecrack": "C", "linearcrack": "C",
     "crack": "C", "裂缝": "C", "混凝土裂缝": "C",
-    "craquelure": "M", "meshcrack": "M", "网裂": "M", "龟裂": "M",
+    "craquelure": "C", "meshcrack": "C", "multicrack": "C", "网裂": "C", "龟裂": "C",
+    "efflorescence": "E", "白华": "E", "白華": "E", "泛碱": "E", "泛鹼": "E", "盐析": "E",
     "concretedelamination": "P", "degradedplaster": "P",
     "peeling": "P", "delamination": "P", "剥离": "P",
     "concretespalling": "S", "tilespalling": "S", "spalling": "S", "剥落": "S",
@@ -365,8 +363,12 @@ class DetectionService:
             label = str(entry.get("original_class_name", entry.get("class_name", entry.get("label", ""))))
             supplied_code = entry.get("class_code")
             code = str(supplied_code).upper() if supplied_code is not None else LABEL_CODES.get(_label_key(label))
+            original_code = code
+            code = canonical_code(code, label, entry.get("class_subtype", ""))
             item = {"instance_id": instance_id, "id": supplied_id, "bbox_xyxy": bbox,
                     "bbox_xyxy_float":bbox_float,"bbox_rounding":"floor_min_ceil_max", "original_class_name": label}
+            if original_code != code:
+                item["original_class_code"] = original_code
             if "class_id" in entry:
                 item["original_class_id"] = entry["class_id"]
             if confidence is not None:
@@ -377,7 +379,7 @@ class DetectionService:
                 warnings.append(f"{image_id}: unsupported class {label or supplied_code!r} preserved for review; it will not be segmented.")
                 continue
             item.update({"class_code": code, "class_name": CLASS_NAMES[code]})
-            if entry.get("class_subtype"):
+            if entry.get("class_subtype") and code != "E":
                 item["class_subtype"] = str(entry["class_subtype"])
             defects.append(item)
             if _label_key(label) == "waterstain":

@@ -45,7 +45,7 @@ class ModelService:
                  python_path: Path | None = None, device: str | None = None,
                  timeout_seconds: float | None = None):
         self.store = store
-        default_repo = Path(__file__).resolve().parents[3] / "项目代码" / "FacadeFixer-main"
+        default_repo = Path(__file__).resolve().parents[3] / "椤圭洰浠ｇ爜" / "FacadeFixer-main"
         self.repo = Path(repo_path or os.environ.get("FACADE_SOURCE_REPO", default_repo)).expanduser().resolve()
         default_python = self.repo / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
         self.python = Path(python_path or os.environ.get("FACADE_SOURCE_PYTHON", default_python)).expanduser().resolve()
@@ -132,7 +132,8 @@ class ModelService:
                 rows.append({"model_profile": name, **profile,
                              "availability": "unavailable" if missing_weights or missing_packages else "available_unverified",
                              "missing_weights": missing_weights, "missing_packages": missing_packages,
-                             "model_load_verified": False})
+                             "model_load_verified": False,
+                             "prompt_modes": (["bbox", "point", "text", "compare", "doubao"] if name == "sam3" else ["bbox", "point"] if name == "mobile_sam" else ["bbox"] if name == "unet_crack" else [])})
             result = {"schema_version": "facade-model-catalog/v1", "status": "configured", "job_id": job_id,
                       "source_repository": str(self.repo), "python": str(self.python), "device": self.device,
                       "runtime": runtime, "models": rows, "paid_api_requests": False,
@@ -214,8 +215,13 @@ class ModelService:
                 raise ModelError("INVALID_POINTS", "Points must lie inside the original stored image.")
         return points
 
-    def segment(self, image_path: str, defects: list[dict], model_profile: str = "mobile_sam") -> dict:
-        return self._segment(image_path, defects, model_profile)
+    def segment(self, image_path: str, defects: list[dict], model_profile: str = "mobile_sam",
+                prompt_mode: str = "bbox", text_prompts: dict | None = None,
+                allow_paid_api: bool = False) -> dict:
+        if prompt_mode in {"compare", "doubao"}:
+            from .prompt_selection import compare_masks
+            return compare_masks(self, image_path, defects, model_profile, text_prompts, prompt_mode, allow_paid_api)
+        return self._segment(image_path, defects, model_profile, prompt_mode=prompt_mode, text_prompts=text_prompts)
 
     def refine(self, image_path: str, annotation_manifest_path: str, instance_id: str,
                positive_points: list[list[float]], negative_points: list[list[float]],
@@ -237,14 +243,18 @@ class ModelService:
         return array > 0, artifact
 
     def _segment(self, image_path, defects, profile, parent_path=None, instance_id=None,
-                 positive_points=None, negative_points=None):
+                 positive_points=None, negative_points=None, prompt_mode="bbox", text_prompts=None):
         started = time.perf_counter()
         job_id, directory = self.store.create_job("source_mask_refine" if parent_path else "source_mask", {
             "image_path": image_path, "defects": defects, "model_profile": profile,
-            "parent_manifest": parent_path, "instance_id": instance_id,
+            "parent_manifest": parent_path, "instance_id": instance_id, "prompt_mode": prompt_mode, "text_prompts": text_prompts,
             "positive_points": positive_points, "negative_points": negative_points})
         try:
             self._config(profile, "segmentation")
+            if prompt_mode not in {"bbox", "point", "text"}:
+                raise ModelError("INVALID_PROMPT_MODE", "Choose bbox, point, text, compare or doubao")
+            if (prompt_mode == "text" and profile != "sam3") or (profile == "unet_crack" and prompt_mode != "bbox"):
+                raise ModelError("UNSUPPORTED_PROMPT_MODE", "Text requires sam3; U-Net only supports bbox crops. No fallback.")
             parent, parent_artifact, preserved = None, None, {}
             if parent_path:
                 if not PROFILES[profile].get("interactive"):
@@ -260,6 +270,18 @@ class ModelService:
                 if sum(str(row.get("instance_id")) == instance_id for row in entries) != 1:
                     raise ModelError("INSTANCE_NOT_FOUND", "Select exactly one instance from the parent manifest.")
             validated = self.masks._validated(image_path, defects)
+            if prompt_mode == "text":
+                defaults = {"C": "crack", "P": "peeling plaster", "S": "spalling concrete", "T": "rust stain",
+                            "R": "corrosion", "D": "surface dirt", "V": "plant", "L": "water stain", "E": "efflorescence"}
+                if text_prompts is not None and (not isinstance(text_prompts, dict) or
+                    any(not isinstance(k, str) or not isinstance(v, str) or not v.strip() or len(v)>500 for k,v in text_prompts.items())):
+                    raise ModelError("INVALID_TEXT_PROMPTS", "Use instance IDs mapped to nonempty text up to 500 characters")
+                ids = {str(row["instance_id"]) for row in validated["defects"]}
+                if set(text_prompts or {}) - ids:
+                    raise ModelError("INVALID_TEXT_PROMPTS", "Unknown instance ID")
+                text_prompts = {str(row["instance_id"]): (text_prompts or {}).get(str(row["instance_id"]), defaults[row["class_code"]]) for row in validated["defects"]}
+            elif text_prompts:
+                raise ModelError("INVALID_TEXT_PROMPTS", "text_prompts only applies to text mode")
             snapshot, metadata = self._snapshot(validated["image_path"], directory)
             if metadata["source_sha256"] != validated["source_sha256"]:
                 raise ModelError("SOURCE_CHANGED", "Source changed since validation.")
@@ -277,7 +299,8 @@ class ModelService:
                 raise ModelError("UNSUPPORTED_CLASS", "unet_crack only supports canonical C crack instances (legacy M is normalized); choose SAM for other classes.")
             if selected:
                 raw = self._run(directory / "model", "segment", image_path=str(snapshot), model_profile=profile,
-                                defects=selected, positive_points=positive_points, negative_points=negative_points)
+                                defects=selected, positive_points=positive_points, negative_points=negative_points,
+                                prompt_mode=prompt_mode, text_prompts=text_prompts)
             else:
                 raw = {"instances": [], "model_provenance": {"model_profile": profile, "inference_skipped": "no_defects_provided"}}
             if sha256(snapshot) != metadata["source_sha256"]:
@@ -346,6 +369,7 @@ class ModelService:
                                         metadata["source_sha256"], validated["quality_flags"])
             result["revision"] = int(parent.get("revision", 1)) + 1 if parent else 1
             result["provenance"] = {"method": "source_model", "model_profile": profile,
+                                    "prompt_mode": "bbox_and_points" if parent else prompt_mode, "text_prompts": text_prompts,
                                     "source_repository": str(self.repo), "model": raw.get("model_provenance", {}),
                                     "reference_mask_used": False, "human_guides_used": bool(parent),
                                     "model_mask_used_as_input": False,

@@ -31,6 +31,43 @@ def defect(identifier="d1", code="C", box=None):
     return {"instance_id": identifier, "class_code": code, "bbox_xyxy": box or [1, 1, 5, 4]}
 
 
+def test_point_mode_uses_center_without_box_prompt(source_case, monkeypatch):
+    repo, image, output = source_case
+    calls = []
+    class Model:
+        def predict(self, **kwargs):
+            calls.append(kwargs)
+            return [SimpleNamespace(masks=SimpleNamespace(data=np.ones((1, 6, 8))), boxes=None)]
+    monkeypatch.setattr(worker, "_make_sam", lambda weights: (Model(), "test"))
+    result = worker.run_segmentation(repo, "mobile_sam", image, output, [defect()], "cpu", prompt_mode="point")
+    assert "bboxes" not in calls[0]
+    assert calls[0]["points"] == [[3, 2.5]] and calls[0]["labels"] == [1]
+    mask = np.asarray(Image.open(result["instances"][0]["mask_path"]))
+    assert np.count_nonzero(mask) == 12
+
+
+def test_text_mode_calls_semantic_predictor_without_spatial_prompt(source_case, monkeypatch):
+    repo, image, output = source_case
+    calls = []
+    class Model:
+        def set_image(self, image):
+            assert image.shape == (6, 8, 3)
+        def __call__(self, **kwargs):
+            calls.append(kwargs)
+            return [SimpleNamespace(masks=SimpleNamespace(data=np.ones((1, 6, 8))), boxes=None)]
+    monkeypatch.setattr(worker, "_make_text_sam", lambda weights, device: (Model(), "test"))
+    result = worker.run_segmentation(repo, "sam3", image, output, [defect()], "cpu",
+                                     prompt_mode="text", text_prompts={"d1": "white mineral deposits"})
+    assert calls == [{"text": ["white mineral deposits"]}]
+    assert result["model_provenance"]["prompt_mode"] == "text"
+
+
+def test_mobile_sam_text_rejected_without_fallback(source_case):
+    repo, image, output = source_case
+    with pytest.raises(ValueError, match="require sam3"):
+        worker.run_segmentation(repo, "mobile_sam", image, output, [defect()], "cpu", prompt_mode="text")
+
+
 def test_sam_instances_are_independent_full_resolution_and_bbox_clipped(source_case, monkeypatch):
     repo, image, output = source_case
     calls = []

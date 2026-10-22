@@ -58,6 +58,7 @@ def main():
                 "FACADE_REPORT_REPO","FACADE_MASK_MODELS_CONFIG","FACADE_DETECTOR_URL","FACADE_DETECTOR_MODEL",
                 "FACADE_DETECTOR_PYTHON","FACADE_DETECTOR_WEIGHTS","FACADE_DETECTOR_DEVICE",
                 "FACADE_SOURCE_REPO","FACADE_SOURCE_PYTHON","FACADE_SOURCE_DEVICE","FACADE_SOURCE_TIMEOUT_SECONDS",
+                "FACADE_SELECTOR_URL","FACADE_SELECTOR_MODEL",
                 "PYTHONPATH","PYTHONIOENCODING","FASTMCP_SHOW_SERVER_BANNER","FASTMCP_CHECK_FOR_UPDATES"}
         for server in result["mcpServers"].values():
             server["env"] = {key:value for key,value in server["env"].items() if key in keep}

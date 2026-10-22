@@ -320,12 +320,52 @@ Mask 完整清单保存 F order RLE、实际前景像素面积和质量标记，
 |---|---|---|
 | `facade_models_list` | 无参数 `{}` | 模型目录、运行环境、依赖/权重缺失、`availability` 与探测任务 ID |
 | `facade_models_detect` | 必填 `image_paths`，1–100 张；`model_profile="yolo12m"`、`threshold=0.25` | `bbox_class_only_v1` 检测结果、原图快照、模型/权重/代码溯源、清单资产 |
-| `facade_models_segment` | 必填 `image_path`、`defects`；`model_profile="mobile_sam"` | `facade-mask/v1` 清单、原始/选用 Mask、叠加图、像素面积及质量标记 |
+| `facade_models_segment` | 必填 `image_path`、`defects`；`model_profile="mobile_sam"`、`prompt_mode="bbox"`、`text_prompts=null`、`allow_paid_api=false` | 单方式/择优返回 `facade-mask/v1`；compare 返回候选清单。包括、原始/选用 Mask、叠加图、像素面积及质量标记 |
 | `facade_models_refine` | 必填 `image_path`、`annotation_manifest_path`、`instance_id`、`positive_points`、`negative_points`；`model_profile="mobile_sam"` | 同一实例的新 Mask 版本，父版本/父资产、点提示事件及哈希；其他实例保留 |
 | `facade_models_get_job` | 必填 `job_id` | 持久化的任务状态，及 `result` 或 `error` |
 | `facade_models_get_artifact` | 必填 `artifact_id`，可带 `artifact:` 前缀 | 已注册资产的完整元数据 |
 
 目录中的 `available_unverified` 只表示依赖和权重文件存在，仍需实际调用验证。探测不会加载模型执行推理。`detect/segment/refine` 同步返回，`get_job` 可在事后查询结果；客户端应给长任务设置足够的超时。
+
+### 框、点、文本与候选择优
+
+`model_profile` 选择模型，`prompt_mode` 选择提示方式，两者独立配置。默认 bbox 保持原有调用兼容。
+
+| prompt_mode | 实际行为 | 可用模型 |
+|---|---|---|
+| `bbox` | 检测框直接提示；U-Net 使用框内裁剪 | mobile_sam / sam3 / unet_crack |
+| `point` | 每个检测框中心生成一个正点；推理不传 bbox，输出再按该实例框裁剪 | mobile_sam / sam3 |
+| `text` | 按实例类别生成英文文本；也可用 `text_prompts` 按实例 ID 覆盖；不向模型传空间提示，输出按框裁剪 | sam3 |
+| `compare` | 顺序生成 bbox、point、text 三种候选，保留 Mask、叠加图及清单，不调用外部评选 | sam3 |
+| `doubao` | 生成三种候选，将叠加图发给配置的视觉模型择优，保留候选与选择理由 | sam3 |
+
+`text_prompts` 示例：`{"D-01":"white mineral deposits on the wall"}`，未指定实例使用类别默认文本。每条非空、最多500字符；未知实例 ID 拒绝。文本模式失败直接报错，不静默回退到点或框。缺陷框和类别仍必填，当前不是无框开放式文本检测。每个实例独立分割；模型返回多个对象时取最高模型分数候选（无分数取第一个），再按实例框裁剪，空结果保留供复核。
+
+```json
+{
+  "image_path": "E:/inspection/photos/facade-001.jpg",
+  "defects": [{"instance_id": "D-01", "class_code": "E", "bbox_xyxy": [20, 30, 180, 240]}],
+  "model_profile": "sam3",
+  "prompt_mode": "text",
+  "text_prompts": {"D-01": "white mineral deposits on the wall"}
+}
+```
+
+选择 `compare` 时返回 `status=needs_selection`、三种候选的 manifest/overlay、comparison 记录。人工选定候选后，读取该候选清单并作为分割结果传给报告工具；固定工作流不自动消费未选定候选。
+
+选择 `doubao` 时必须显式传入 `allow_paid_api=true`。在服务端 `.env` 配置：
+
+```dotenv
+FACADE_SELECTOR_URL=https://ark.cn-beijing.volces.com/api/v3/chat/completions
+FACADE_SELECTOR_MODEL=你的支持图像输入的模型或接入点ID
+FACADE_SELECTOR_API_KEY=在本机填写
+```
+
+评选使用兼容 Chat Completions 的视觉接口；模型名称和地址由服务端配置，不由工具参数指定。三个叠加图包含原图内容，会发送给配置的提供商。只有此模式发送评选请求；本地模型子进程仍禁用网络且不继承密钥。请求不自动重试，错误/无法解析的选择直接失败，不默认为 bbox。选择是整张图的候选方案，不是每个缺陷分别择优；理由与 usage 留档，费用未知，不将视觉偏好视为真实准确率。
+
+工作流设置 `mask.method=source`，并填写 `mask.model_profile`、`mask.prompt_mode`、可选 `mask.text_prompts`；doubao 另要求顶层 `allow_paid_api=true`。`facade_models_refine` 继续使用 bbox＋人工正负点，不等同于自动中心点模式。
+
+验证：MobileSAM 中心点模式已使用本地权重跑通（运行验证，非准确率评价）；SAM3 文本与在线评选只完成接口/模拟测试，尚未实际加载 SAM3 或发送付费评选请求。原项目按裂缝分流至专用模型的策略未包含在本次提示方式扩展中。
 
 ### 九个模型 profile
 

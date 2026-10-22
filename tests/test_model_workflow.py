@@ -110,7 +110,8 @@ def test_model_tools_publish_scoped_schemas_and_preserve_detection_boxes(tmp_pat
             return {"images": [{"defects": [{"instance_id": "D1", "bbox_xyxy": [1, 2, 8, 9]}]}],
                     "profile": model_profile, "threshold": threshold}
 
-        def segment(self, image_path, defects, model_profile):
+        def segment(self, image_path, defects, model_profile, prompt_mode="bbox", text_prompts=None, allow_paid_api=False):
+            assert prompt_mode == "bbox" and not allow_paid_api
             return {"schema_version": "facade-mask/v1", "instances": [{"instance_id": "D1",
                     "area_pixels": 12, "segmentation_rle": {"counts": [0, 12]}}],
                     "segmentation_rle": {"counts": [0, 12]}, "annotation_manifest": artifact}

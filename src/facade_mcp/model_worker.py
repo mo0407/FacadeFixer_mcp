@@ -53,7 +53,8 @@ def main() -> None:
             result = run_segmentation(Path(request["repo"]), request["model_profile"],
                                       Path(request["image_path"]), Path(request["output_dir"]),
                                       request["defects"], request["device"],
-                                      request.get("positive_points"), request.get("negative_points"))
+                                      request.get("positive_points"), request.get("negative_points"),
+                                      request.get("prompt_mode", "bbox"), request.get("text_prompts"))
         else:
             raise ValueError("Unsupported worker action")
     except Exception as error:

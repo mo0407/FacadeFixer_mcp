@@ -25,7 +25,7 @@
 
 合并使用 `max(IoU, intersection/smaller-area) >= 0.5` 分组，同一模型只贡献一次，坐标和分数取贡献者均值。这是明确记录的适配实现，与旧后端的模型成员和投票流程有差别。模型分数保持模型原意，不当成准确率。
 
-没有接入训练、GT 对照、批量评价脚本作为推理工具。`yolo11n-seg.pt` 是通用 COCO 分割权重，不注册为建筑缺陷模型。旧后端中会下载其他权重、自动付费选择候选、图像修复的流程也不在这些本地模型工具中。
+没有接入训练、GT 对照、批量评价脚本作为推理工具。`yolo11n-seg.pt` 是通用 COCO 分割权重，不注册为建筑缺陷模型。自动下载权重及图像修复仍未接入。候选评选改为显式授权的 doubao 模式，详见 README 的提示方式说明。
 
 ## 2. 配置与启动
 
@@ -57,7 +57,7 @@ MCP 客户端导入 `mcp.local.json`，模型可发现所有 21 个工具。服�
 |---|---|---|
 | `facade_models_list` | 无 | 9 个 profile、依赖/权重缺失、设备、运行时信息 |
 | `facade_models_detect` | `image_paths[]`, `model_profile`, `threshold` | `bbox_class_only_v1`、每张图 bbox/类别/置信度、未知类别、原图哈希、检测清单资产 |
-| `facade_models_segment` | `image_path`, `defects[]`, `model_profile` | `facade-mask/v1`、原尺寸实例/并集/类别 Mask、叠加图、像素面积、模型和代码哈希 |
+| `facade_models_segment` | `image_path`, `defects[]`, `model_profile`, `prompt_mode`, `text_prompts`, `allow_paid_api` | `facade-mask/v1`、原尺寸实例/并集/类别 Mask、叠加图、像素面积、模型和代码哈希 |
 | `facade_models_refine` | 原图、上一版 manifest、`instance_id`、`positive_points[]`、`negative_points[]`、SAM profile | 新版 Mask 清单、父版本/父资产哈希、点提示事件，其他实例保留 |
 | `facade_models_get_job` | `job_id` | 持久化的 running/completed/failed 状态、结果或错误 |
 | `facade_models_get_artifact` | `artifact_id` 或 `artifact:...` | 文件路径、角色、SHA-256、大小等元数据 |
@@ -95,7 +95,7 @@ MCP 客户端导入 `mcp.local.json`，模型可发现所有 21 个工具。服�
 
 固定流程：坐标 → 航线草案 → 素材 → `facade_models_detect` → `facade_models_segment` → 原报告 MCP。可以分别选择 source 检测 + OpenCV Mask、原 annotations 检测 + source Mask。原有 `annotations/http/local_yolo` 与 `opencv/api` 入口继续可用。
 
-LangChain `agent` 从同一配置动态发现新增工具，自主选择 profile；`run` 则由 JSON 决定调用次序。源码模型工具不使用付费 API；原 API Mask 继续使用它原有的显式授权流程。
+LangChain `agent` 从同一配置动态发现新增工具，自主选择 profile；`run` 则由 JSON 决定调用次序。本地推理不使用付费 API；facade_models_segment 的 doubao 模式额外要求 allow_paid_api=true 并调用配置的视觉评选接口；原 API Mask 继续使用它原有的显式授权流程。
 
 ## 5. 资产和可追溯性
 

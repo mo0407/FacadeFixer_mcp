@@ -47,14 +47,19 @@ def create_server(service: ModelService | None = None, store: ArtifactStore | No
         return service.detect(image_paths, model_profile=model_profile, threshold=threshold)
 
     @server.tool()
-    def facade_models_segment(image_path: str, defects: list[dict], model_profile: str = "mobile_sam") -> dict:
+    def facade_models_segment(image_path: str, defects: list[dict], model_profile: str = "mobile_sam",
+                              prompt_mode: str = "bbox", text_prompts: dict | None = None,
+                              allow_paid_api: bool = False) -> dict:
         """Generate local model masks from original-photo defect boxes/classes.
 
-        Choose a configured local profile; no paid API requests. Return
+        Choose bbox, point, text, compare or doubao. Text/compare/doubao require sam3.
+        doubao uploads candidate overlays to the configured selector and requires allow_paid_api=true.
+        compare returns candidates for manual selection. Other modes use only local inference. Return
         facade-mask/v1 artifacts, original-resolution masks, actual pixel area
         and review state. Full RLE stays in the annotation manifest artifact.
         """
-        return _tool_result(service.segment(image_path, defects, model_profile=model_profile))
+        return _tool_result(service.segment(image_path, defects, model_profile=model_profile,
+                                            prompt_mode=prompt_mode, text_prompts=text_prompts, allow_paid_api=allow_paid_api))
 
     @server.tool()
     def facade_models_refine(image_path: str, annotation_manifest_path: str, instance_id: str,

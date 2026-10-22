@@ -60,6 +60,43 @@ def defects():
             {"instance_id": "b", "class_code": "T", "bbox_xyxy": [40, 10, 70, 35]}]
 
 
+def test_prompt_comparison_keeps_candidates_and_requires_paid_consent(setup, monkeypatch):
+    service, image = setup
+    simulated_worker(monkeypatch, service)
+    rejected = service.segment(str(image), defects(), "sam3", prompt_mode="doubao")
+    assert rejected["status"] == "failed" and "allow_paid_api" in rejected["error"]["message"]
+    result = service.segment(str(image), defects(), "sam3", prompt_mode="compare")
+    assert result["status"] == "needs_selection"
+    assert set(result["candidates"]) == {"bbox", "point", "text"}
+    assert result["selection"]["api_requests"] == 0
+    text = json.loads(Path(result["candidates"]["text"]["manifest"]["path"]).read_text(encoding="utf-8"))
+    assert text["provenance"]["text_prompts"] == {"a": "crack", "b": "rust stain"}
+
+
+def test_selector_exports_selected_manifest_and_preserves_candidates(setup, monkeypatch):
+    from facade_mcp import prompt_selection
+    service, image = setup
+    simulated_worker(monkeypatch, service)
+    monkeypatch.setattr(prompt_selection, "selector_config", lambda: ("https://example.invalid", "test", "test"))
+    monkeypatch.setattr(prompt_selection, "judge", lambda *args: {"selected_mode": "point", "reason": "fixture", "api_requests": 1})
+    result = service.segment(str(image), defects(), "sam3", prompt_mode="doubao", allow_paid_api=True)
+    assert "instances" in result
+    assert result["provenance"]["prompt_mode"] == "point"
+    assert result["provenance"]["prompt_selection"]["selection"]["selected_mode"] == "point"
+    assert result["metrics"]["actual_charge"] is None
+    manifest = json.loads(Path(result["annotation_manifest"]["path"]).read_text(encoding="utf-8"))
+    assert manifest["job_id"] == result["job_id"]
+
+
+def test_text_custom_prompts_and_unsupported_mode(setup, monkeypatch):
+    service, image = setup
+    simulated_worker(monkeypatch, service)
+    result = service.segment(str(image), defects(), "sam3", prompt_mode="text", text_prompts={"a": "thin crack"})
+    assert result["provenance"]["text_prompts"]["a"] == "thin crack"
+    assert service.segment(str(image), defects(), "mobile_sam", prompt_mode="text")["status"] == "failed"
+    assert service.segment(str(image), defects(), "sam3", prompt_mode="text", text_prompts={"missing": "x"})["status"] == "failed"
+
+
 @pytest.mark.parametrize("code,profile,expected", [("M", "unet_crack", "C"), ("E", "mobile_sam", "E")])
 def test_model_masks_use_canonical_classes(setup, monkeypatch, code, profile, expected):
     service, image = setup

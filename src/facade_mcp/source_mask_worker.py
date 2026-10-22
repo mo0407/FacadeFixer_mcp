@@ -84,6 +84,13 @@ def _make_sam(weights):
     return SAM(str(weights)), ultralytics.__version__
 
 
+def _make_text_sam(weights, device):
+    import ultralytics
+    from ultralytics.models.sam import SAM3SemanticPredictor
+    return SAM3SemanticPredictor(overrides={"model": str(weights), "device": device,
+        "task": "segment", "mode": "predict", "verbose": False, "save": False}), ultralytics.__version__
+
+
 def _as_array(value):
     import numpy as np
     if hasattr(value, "detach"):
@@ -95,7 +102,7 @@ def _as_array(value):
     return np.asarray(value)
 
 
-def _sam_mask(model, raster, box, device, positive, negative):
+def _sam_mask(model, raster, box, device, positive, negative, prompt_mode="bbox", text_prompt=None):
     import cv2
     import numpy as np
     kwargs = {"source": raster, "bboxes": [box], "device": device,
@@ -103,8 +110,17 @@ def _sam_mask(model, raster, box, device, positive, negative):
     if positive or negative:
         # The outer dimension groups all clicks into this one prompted object.
         kwargs.update(points=[positive + negative], labels=[[1] * len(positive) + [0] * len(negative)])
+    if prompt_mode == "point":
+        kwargs.pop("bboxes")
+        kwargs.update(points=[[(box[0]+box[2])/2, (box[1]+box[3])/2]], labels=[1])
+    if prompt_mode == "text":
+        import numpy as np
+        model.set_image(np.asarray(raster))
+        results = model(text=[text_prompt])
+    else:
+        results = model.predict(**kwargs)
     candidates = []
-    for result in model.predict(**kwargs):
+    for result in results:
         if result.masks is None:
             continue
         arrays = _as_array(result.masks.data)
@@ -180,7 +196,8 @@ def _unet_mask(model, input_size, raster, box, device):
 
 def run_segmentation(repo: Path, profile: str, image_path: Path, output_dir: Path,
                      defects: list[dict], device: str, positive_points: list | None = None,
-                     negative_points: list | None = None) -> dict:
+                     negative_points: list | None = None, prompt_mode: str = "bbox",
+                     text_prompts: dict | None = None) -> dict:
     """Write one full-resolution, bbox-clipped binary PNG for each real candidate.
 
     Inputs are pre-authorized local paths from the parent worker. Coordinates are
@@ -192,6 +209,12 @@ def run_segmentation(repo: Path, profile: str, image_path: Path, output_dir: Pat
 
     if profile not in _PROFILES:
         raise ValueError("Supported segmentation profiles are sam3, mobile_sam and unet_crack; COCO YOLO-seg is not a facade-defect model")
+    if prompt_mode not in {"bbox", "point", "text"}:
+        raise ValueError("Unsupported prompt_mode")
+    if prompt_mode == "text" and profile != "sam3":
+        raise ValueError("Text prompts require sam3; no automatic fallback")
+    if profile == "unet_crack" and prompt_mode != "bbox":
+        raise ValueError("U-Net supports only bbox crop inference")
     configured_device = device
     # Ultralytics accepts GPU index strings, while torch requires cuda:N.
     if isinstance(device, str) and device.isdecimal():
@@ -226,7 +249,7 @@ def run_segmentation(repo: Path, profile: str, image_path: Path, output_dir: Pat
                   "weights_sha256": _sha256(weights), "source_files_sha256": source_files,
                   "source_image_sha256": input_sha256,
                   "adapter_file_sha256": _sha256(Path(__file__)), "device": device,
-                  "configured_device": configured_device,
+                  "configured_device": configured_device, "prompt_mode": prompt_mode, "text_prompts": text_prompts,
                   "automatic_weight_download": False, "automatic_dependency_install": False,
                   "pixel_convention": "stored_pixels", "bbox_constraint": "xyxy_max_exclusive",
                   "adapter": "unet16_cpu_safe_checkpoint_loader" if profile == "unet_crack" else "ultralytics_sam_prompt_adapter"}
@@ -237,7 +260,10 @@ def run_segmentation(repo: Path, profile: str, image_path: Path, output_dir: Pat
             provenance.update(library="torch", library_version=str(version), probability_threshold=.2,
                               preprocessing="RGB crop, source input_size, ImageNet normalization, sigmoid, INTER_AREA restore")
         else:
-            model, version = _make_sam(weights)
+            if prompt_mode == "text":
+                model, version = _make_text_sam(weights, device)
+            else:
+                model, version = _make_sam(weights)
             provenance.update(library="ultralytics", library_version=str(version))
     instances = []
     for index, defect in enumerate(defects):
@@ -245,7 +271,10 @@ def run_segmentation(repo: Path, profile: str, image_path: Path, output_dir: Pat
         if profile == "unet_crack":
             mask, score = _unet_mask(model, input_size, raster, box, device), None
         else:
-            mask, score = _sam_mask(model, raster, box, device, positive, negative)
+            text_prompt = (text_prompts or {}).get(str(defect["instance_id"]))
+            if prompt_mode == "text" and not text_prompt:
+                raise ValueError("Text mode needs one nonempty prompt per instance")
+            mask, score = _sam_mask(model, raster, box, device, positive, negative, prompt_mode, text_prompt)
         constrained = np.zeros((raster.height, raster.width), dtype=bool)
         x1, y1, x2, y2 = box
         constrained[y1:y2, x1:x2] = mask[y1:y2, x1:x2]

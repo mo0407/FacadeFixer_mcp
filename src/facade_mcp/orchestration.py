@@ -127,7 +127,12 @@ def build_workflow(gateway:ToolGateway):
             if settings.get("method","opencv") == "opencv":
                 result = await gateway.call("mask_segment_opencv",arguments)
             elif settings["method"] == "source":
-                result = await gateway.call("facade_models_segment",arguments|{"model_profile":settings.get("model_profile","mobile_sam")})
+                if settings.get("prompt_mode") == "compare":
+                    raise ValueError("compare needs manual selection; call MCP directly before continuing the report workflow")
+                result = await gateway.call("facade_models_segment",arguments|{
+                    "model_profile":settings.get("model_profile","mobile_sam"),
+                    "prompt_mode":settings.get("prompt_mode","bbox"), "text_prompts":settings.get("text_prompts"),
+                    "allow_paid_api":state["request"].get("allow_paid_api",False)})
             elif settings["method"] == "api":
                 if not state["request"].get("allow_paid_api",False):
                     raise ValueError("mask.method=api requires allow_paid_api=true in the workflow request")

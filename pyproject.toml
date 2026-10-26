@@ -16,6 +16,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+web = ["starlette>=0.40", "uvicorn>=0.30", "pypdf>=5,<7"]
 
 [project.scripts]
 facade-workflow = "facade_mcp.cli:main"
@@ -23,6 +24,7 @@ facade-survey-mcp = "facade_mcp.survey_server:main"
 facade-mask-mcp = "facade_mcp.mask_server:main"
 facade-report-mcp = "facade_mcp.report_server:main"
 facade-model-mcp = "facade_mcp.model_server:main"
+facade-web = "facade_mcp.web_app:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/facade_mcp"]

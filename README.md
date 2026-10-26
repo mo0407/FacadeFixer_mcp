@@ -15,6 +15,8 @@ flowchart LR
 
 ## 导航
 
+- [轻量网页端](docs/web-app.md)：上传素材、真实 MCP 分析、可编辑报告、提示词修改与版本记录。
+- [Canva 开发设计稿与交付规范](docs/ui-handoff/README.md)。
 - [快速开始](#快速开始)
 - [服务总览](#服务总览)
 - [MCP 使用流程](#mcp-使用流程)
@@ -27,6 +29,8 @@ flowchart LR
 - [验证与代码入口](#验证与代码入口)
 
 ## 快速开始
+
+**想直接使用网页界面？** 运行 `./setup.ps1 -Web -SkipUpstream`，填写 `.env` 中的模型路径，再运行 `./run_web.ps1`，打开 <http://127.0.0.1:8780>。完整步骤见 [网页端说明](docs/web-app.md)。原 MCP 服务的 HTTP 端口和这里的网页端端口相互独立。
 
 已验证环境：Python 3.12、FastMCP 4.1、LangChain 1.4、LangGraph 1.2。安装依赖以 `requirements.lock.txt` 为准；`langchain.mcp.MCPAdapter` 当前为 beta。
 

@@ -1,0 +1,2239 @@
+{
+  "pages": [
+    {
+      "name": "01 上传与新建",
+      "width": 1440,
+      "height": 900,
+      "elements": [
+        {
+          "id": "element-1",
+          "text": "",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 220,
+            "height": 900
+          },
+          "style": {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "width": "220px",
+            "height": "900px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-2",
+          "text": "▥ FacadeFixer",
+          "bounds": {
+            "x": 12,
+            "y": 12,
+            "width": 205,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "12px",
+            "width": "205px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "23px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-3",
+          "text": "＋ 新建报告",
+          "bounds": {
+            "x": 16,
+            "y": 88,
+            "width": 188,
+            "height": 52
+          },
+          "style": {
+            "position": "absolute",
+            "left": "16px",
+            "top": "88px",
+            "width": "188px",
+            "height": "52px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-4",
+          "text": "最近任务",
+          "bounds": {
+            "x": 8,
+            "y": 160,
+            "width": 200,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "8px",
+            "top": "160px",
+            "width": "200px",
+            "height": "45px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "13px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-5",
+          "text": "A栋外墙巡检",
+          "bounds": {
+            "x": 12,
+            "y": 210,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "210px",
+            "width": "196px",
+            "height": "50px",
+            "background": "#EDF2FF",
+            "color": "#3563E9",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-6",
+          "text": "园区北楼复查",
+          "bounds": {
+            "x": 12,
+            "y": 270,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "270px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-7",
+          "text": "本地工作区　⚙",
+          "bounds": {
+            "x": 12,
+            "y": 820,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "820px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-8",
+          "text": "新建报告",
+          "bounds": {
+            "x": 244,
+            "y": 12,
+            "width": 650,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "244px",
+            "top": "12px",
+            "width": "650px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "20px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-9",
+          "text": "上传素材，开始巡检报告",
+          "bounds": {
+            "x": 440,
+            "y": 180,
+            "width": 760,
+            "height": 80
+          },
+          "style": {
+            "position": "absolute",
+            "left": "440px",
+            "top": "180px",
+            "width": "760px",
+            "height": "80px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "36px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-10",
+          "text": "添加视频、图片和建筑资料，用一句话描述你的需求",
+          "bounds": {
+            "x": 415,
+            "y": 260,
+            "width": 800,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "415px",
+            "top": "260px",
+            "width": "800px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "18px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-11",
+          "text": "",
+          "bounds": {
+            "x": 380,
+            "y": 360,
+            "width": 900,
+            "height": 250
+          },
+          "style": {
+            "position": "absolute",
+            "left": "380px",
+            "top": "360px",
+            "width": "900px",
+            "height": "250px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-12",
+          "text": "南立面照片 · 12 张",
+          "bounds": {
+            "x": 400,
+            "y": 380,
+            "width": 240,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "400px",
+            "top": "380px",
+            "width": "240px",
+            "height": "60px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-13",
+          "text": "巡检视频.mp4 · 02:36",
+          "bounds": {
+            "x": 652,
+            "y": 380,
+            "width": 260,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "652px",
+            "top": "380px",
+            "width": "260px",
+            "height": "60px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-14",
+          "text": "请根据这些素材生成外墙巡检报告，按立面整理缺陷，并附上标注图片。",
+          "bounds": {
+            "x": 400,
+            "y": 455,
+            "width": 830,
+            "height": 85
+          },
+          "style": {
+            "position": "absolute",
+            "left": "400px",
+            "top": "455px",
+            "width": "830px",
+            "height": "85px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "19px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-15",
+          "text": "＋ 添加素材",
+          "bounds": {
+            "x": 400,
+            "y": 548,
+            "width": 140,
+            "height": 44
+          },
+          "style": {
+            "position": "absolute",
+            "left": "400px",
+            "top": "548px",
+            "width": "140px",
+            "height": "44px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-16",
+          "text": "建筑信息",
+          "bounds": {
+            "x": 555,
+            "y": 548,
+            "width": 130,
+            "height": 44
+          },
+          "style": {
+            "position": "absolute",
+            "left": "555px",
+            "top": "548px",
+            "width": "130px",
+            "height": "44px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-17",
+          "text": "↑",
+          "bounds": {
+            "x": 1210,
+            "y": 548,
+            "width": 50,
+            "height": 44
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1210px",
+            "top": "548px",
+            "width": "50px",
+            "height": "44px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "18px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-18",
+          "text": "A栋办公楼 · 2026年10月巡检　✎",
+          "bounds": {
+            "x": 540,
+            "y": 650,
+            "width": 620,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "540px",
+            "top": "650px",
+            "width": "620px",
+            "height": "45px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-19",
+          "text": "缺少资料时助手会继续询问；报告生成后支持直接编辑和对话修改。",
+          "bounds": {
+            "x": 410,
+            "y": 735,
+            "width": 850,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "410px",
+            "top": "735px",
+            "width": "850px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 报告编辑与对话修改",
+      "width": 1440,
+      "height": 900,
+      "elements": [
+        {
+          "id": "element-1",
+          "text": "",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 220,
+            "height": 900
+          },
+          "style": {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "width": "220px",
+            "height": "900px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-2",
+          "text": "▥ FacadeFixer",
+          "bounds": {
+            "x": 12,
+            "y": 12,
+            "width": 205,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "12px",
+            "width": "205px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "23px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-3",
+          "text": "＋ 新建报告",
+          "bounds": {
+            "x": 16,
+            "y": 88,
+            "width": 188,
+            "height": 52
+          },
+          "style": {
+            "position": "absolute",
+            "left": "16px",
+            "top": "88px",
+            "width": "188px",
+            "height": "52px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-4",
+          "text": "最近任务",
+          "bounds": {
+            "x": 8,
+            "y": 160,
+            "width": 200,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "8px",
+            "top": "160px",
+            "width": "200px",
+            "height": "45px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "13px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-5",
+          "text": "A栋外墙巡检",
+          "bounds": {
+            "x": 12,
+            "y": 210,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "210px",
+            "width": "196px",
+            "height": "50px",
+            "background": "#EDF2FF",
+            "color": "#3563E9",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-6",
+          "text": "园区北楼复查",
+          "bounds": {
+            "x": 12,
+            "y": 270,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "270px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-7",
+          "text": "本地工作区　⚙",
+          "bounds": {
+            "x": 12,
+            "y": 820,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "820px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-8",
+          "text": "A栋外墙巡检　· 已保存",
+          "bounds": {
+            "x": 244,
+            "y": 12,
+            "width": 650,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "244px",
+            "top": "12px",
+            "width": "650px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "20px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-9",
+          "text": "请根据上传的视频和照片，生成A栋外墙巡检报告。",
+          "bounds": {
+            "x": 245,
+            "y": 100,
+            "width": 440,
+            "height": 110
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "100px",
+            "width": "440px",
+            "height": "110px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-10",
+          "text": "报告草稿已生成。你可以点击右侧正文直接修改，或继续告诉我修改要求。",
+          "bounds": {
+            "x": 245,
+            "y": 240,
+            "width": 440,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "240px",
+            "width": "440px",
+            "height": "100px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-11",
+          "text": "▤ A栋外墙巡检报告 · V1 可编辑报告",
+          "bounds": {
+            "x": 245,
+            "y": 345,
+            "width": 440,
+            "height": 80
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "345px",
+            "width": "440px",
+            "height": "80px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-12",
+          "text": "将第3条缺陷改为白华，并补充处理建议。",
+          "bounds": {
+            "x": 245,
+            "y": 470,
+            "width": 440,
+            "height": 85
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "470px",
+            "width": "440px",
+            "height": "85px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-13",
+          "text": "已更新第3条缺陷。  V2 · 查看修改",
+          "bounds": {
+            "x": 245,
+            "y": 575,
+            "width": 440,
+            "height": 90
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "575px",
+            "width": "440px",
+            "height": "90px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-14",
+          "text": "描述修改要求，或先选中报告内容…",
+          "bounds": {
+            "x": 245,
+            "y": 765,
+            "width": 440,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "245px",
+            "top": "765px",
+            "width": "440px",
+            "height": "100px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-15",
+          "text": "",
+          "bounds": {
+            "x": 710,
+            "y": 0,
+            "width": 730,
+            "height": 900
+          },
+          "style": {
+            "position": "absolute",
+            "left": "710px",
+            "top": "0px",
+            "width": "730px",
+            "height": "900px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-16",
+          "text": "编辑",
+          "bounds": {
+            "x": 730,
+            "y": 15,
+            "width": 85,
+            "height": 42
+          },
+          "style": {
+            "position": "absolute",
+            "left": "730px",
+            "top": "15px",
+            "width": "85px",
+            "height": "42px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "15px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-17",
+          "text": "预览",
+          "bounds": {
+            "x": 824,
+            "y": 12,
+            "width": 90,
+            "height": 42
+          },
+          "style": {
+            "position": "absolute",
+            "left": "824px",
+            "top": "12px",
+            "width": "90px",
+            "height": "42px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-18",
+          "text": "修改记录",
+          "bounds": {
+            "x": 1080,
+            "y": 12,
+            "width": 160,
+            "height": 42
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1080px",
+            "top": "12px",
+            "width": "160px",
+            "height": "42px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-19",
+          "text": "导出 HTML",
+          "bounds": {
+            "x": 1280,
+            "y": 15,
+            "width": 130,
+            "height": 42
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1280px",
+            "top": "15px",
+            "width": "130px",
+            "height": "42px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "15px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-20",
+          "text": "正文 ▾　 B　 I　 U　 ≡　 ↶　 ↷　　　 已自动保存",
+          "bounds": {
+            "x": 730,
+            "y": 75,
+            "width": 680,
+            "height": 52
+          },
+          "style": {
+            "position": "absolute",
+            "left": "730px",
+            "top": "75px",
+            "width": "680px",
+            "height": "52px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-21",
+          "text": "",
+          "bounds": {
+            "x": 730,
+            "y": 147,
+            "width": 680,
+            "height": 730
+          },
+          "style": {
+            "position": "absolute",
+            "left": "730px",
+            "top": "147px",
+            "width": "680px",
+            "height": "730px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-22",
+          "text": "A栋外墙巡检报告　✎",
+          "bounds": {
+            "x": 758,
+            "y": 166,
+            "width": 620,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "166px",
+            "width": "620px",
+            "height": "70px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "30px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-23",
+          "text": "草稿 · 待复核",
+          "bounds": {
+            "x": 758,
+            "y": 236,
+            "width": 620,
+            "height": 40
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "236px",
+            "width": "620px",
+            "height": "40px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-24",
+          "text": "项目名称　A栋办公楼　　　 巡检期次　2026年10月",
+          "bounds": {
+            "x": 758,
+            "y": 300,
+            "width": 620,
+            "height": 65
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "300px",
+            "width": "620px",
+            "height": "65px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-25",
+          "text": "03　白华（泛碱）",
+          "bounds": {
+            "x": 758,
+            "y": 390,
+            "width": 620,
+            "height": 48
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "390px",
+            "width": "620px",
+            "height": "48px",
+            "background": "transparent",
+            "color": "#3563E9",
+            "font-size": "22px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-26",
+          "text": "缺陷编号　D-003　　　 所在立面　南立面 缺陷类型　白华　　　　 复核状态　待复核",
+          "bounds": {
+            "x": 758,
+            "y": 450,
+            "width": 620,
+            "height": 80
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "450px",
+            "width": "620px",
+            "height": "80px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-27",
+          "text": "原始图片 · 证据区",
+          "bounds": {
+            "x": 758,
+            "y": 550,
+            "width": 300,
+            "height": 120
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "550px",
+            "width": "300px",
+            "height": "120px",
+            "background": "#F1F3F7",
+            "color": "#778196",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-28",
+          "text": "Mask叠加 · 证据区",
+          "bounds": {
+            "x": 1078,
+            "y": 550,
+            "width": 300,
+            "height": 120
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1078px",
+            "top": "550px",
+            "width": "300px",
+            "height": "120px",
+            "background": "#EDF2FF",
+            "color": "#778196",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-29",
+          "text": "处理建议  建议现场复核白华范围 ，结合含水情况排查原因。│",
+          "bounds": {
+            "x": 758,
+            "y": 710,
+            "width": 620,
+            "height": 105
+          },
+          "style": {
+            "position": "absolute",
+            "left": "758px",
+            "top": "710px",
+            "width": "620px",
+            "height": "105px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-30",
+          "text": "✧ 让 AI 修改选中内容",
+          "bounds": {
+            "x": 1060,
+            "y": 680,
+            "width": 250,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1060px",
+            "top": "680px",
+            "width": "250px",
+            "height": "45px",
+            "background": "#EDF2FF",
+            "color": "#3563E9",
+            "font-size": "15px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 建筑信息与运行配置",
+      "width": 1440,
+      "height": 900,
+      "elements": [
+        {
+          "id": "element-1",
+          "text": "",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 220,
+            "height": 900
+          },
+          "style": {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "width": "220px",
+            "height": "900px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-2",
+          "text": "▥ FacadeFixer",
+          "bounds": {
+            "x": 12,
+            "y": 12,
+            "width": 205,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "12px",
+            "width": "205px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "23px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-3",
+          "text": "＋ 新建报告",
+          "bounds": {
+            "x": 16,
+            "y": 88,
+            "width": 188,
+            "height": 52
+          },
+          "style": {
+            "position": "absolute",
+            "left": "16px",
+            "top": "88px",
+            "width": "188px",
+            "height": "52px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-4",
+          "text": "最近任务",
+          "bounds": {
+            "x": 8,
+            "y": 160,
+            "width": 200,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "8px",
+            "top": "160px",
+            "width": "200px",
+            "height": "45px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "13px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-5",
+          "text": "A栋外墙巡检",
+          "bounds": {
+            "x": 12,
+            "y": 210,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "210px",
+            "width": "196px",
+            "height": "50px",
+            "background": "#EDF2FF",
+            "color": "#3563E9",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-6",
+          "text": "园区北楼复查",
+          "bounds": {
+            "x": 12,
+            "y": 270,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "270px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-7",
+          "text": "本地工作区　⚙",
+          "bounds": {
+            "x": 12,
+            "y": 820,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "820px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-8",
+          "text": "建筑信息 · 按需打开的抽屉",
+          "bounds": {
+            "x": 244,
+            "y": 12,
+            "width": 650,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "244px",
+            "top": "12px",
+            "width": "650px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "20px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-9",
+          "text": "",
+          "bounds": {
+            "x": 800,
+            "y": 80,
+            "width": 600,
+            "height": 780
+          },
+          "style": {
+            "position": "absolute",
+            "left": "800px",
+            "top": "80px",
+            "width": "600px",
+            "height": "780px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-10",
+          "text": "建筑信息与模型配置",
+          "bounds": {
+            "x": 825,
+            "y": 105,
+            "width": 550,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "105px",
+            "width": "550px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "26px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-11",
+          "text": "建筑名称 *　A栋办公楼",
+          "bounds": {
+            "x": 825,
+            "y": 200,
+            "width": 550,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "200px",
+            "width": "550px",
+            "height": "70px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-12",
+          "text": "巡检期次　2026年10月",
+          "bounds": {
+            "x": 825,
+            "y": 290,
+            "width": 550,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "290px",
+            "width": "550px",
+            "height": "70px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-13",
+          "text": "建筑位置　可填写地址或经纬度",
+          "bounds": {
+            "x": 825,
+            "y": 380,
+            "width": 550,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "380px",
+            "width": "550px",
+            "height": "70px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-14",
+          "text": "检测模型　YOLO12m　▾",
+          "bounds": {
+            "x": 825,
+            "y": 470,
+            "width": 550,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "470px",
+            "width": "550px",
+            "height": "70px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-15",
+          "text": "Mask 模型　MobileSAM　▾　提示方式　框",
+          "bounds": {
+            "x": 825,
+            "y": 560,
+            "width": 550,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "560px",
+            "width": "550px",
+            "height": "70px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-16",
+          "text": "视频按固定间隔抽帧，保留来源时间。未配置在线语言模型时，提供明确的本地指令范围。",
+          "bounds": {
+            "x": 825,
+            "y": 650,
+            "width": 550,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "825px",
+            "top": "650px",
+            "width": "550px",
+            "height": "100px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-17",
+          "text": "保存设置",
+          "bounds": {
+            "x": 1110,
+            "y": 770,
+            "width": 265,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1110px",
+            "top": "770px",
+            "width": "265px",
+            "height": "50px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 修改记录",
+      "width": 1440,
+      "height": 900,
+      "elements": [
+        {
+          "id": "element-1",
+          "text": "",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 220,
+            "height": 900
+          },
+          "style": {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "width": "220px",
+            "height": "900px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-2",
+          "text": "▥ FacadeFixer",
+          "bounds": {
+            "x": 12,
+            "y": 12,
+            "width": 205,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "12px",
+            "width": "205px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "23px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-3",
+          "text": "＋ 新建报告",
+          "bounds": {
+            "x": 16,
+            "y": 88,
+            "width": 188,
+            "height": 52
+          },
+          "style": {
+            "position": "absolute",
+            "left": "16px",
+            "top": "88px",
+            "width": "188px",
+            "height": "52px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-4",
+          "text": "最近任务",
+          "bounds": {
+            "x": 8,
+            "y": 160,
+            "width": 200,
+            "height": 45
+          },
+          "style": {
+            "position": "absolute",
+            "left": "8px",
+            "top": "160px",
+            "width": "200px",
+            "height": "45px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "13px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-5",
+          "text": "A栋外墙巡检",
+          "bounds": {
+            "x": 12,
+            "y": 210,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "210px",
+            "width": "196px",
+            "height": "50px",
+            "background": "#EDF2FF",
+            "color": "#3563E9",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-6",
+          "text": "园区北楼复查",
+          "bounds": {
+            "x": 12,
+            "y": 270,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "270px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "15px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-7",
+          "text": "本地工作区　⚙",
+          "bounds": {
+            "x": 12,
+            "y": 820,
+            "width": 196,
+            "height": 50
+          },
+          "style": {
+            "position": "absolute",
+            "left": "12px",
+            "top": "820px",
+            "width": "196px",
+            "height": "50px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "14px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-8",
+          "text": "报告修改记录",
+          "bounds": {
+            "x": 244,
+            "y": 12,
+            "width": 650,
+            "height": 60
+          },
+          "style": {
+            "position": "absolute",
+            "left": "244px",
+            "top": "12px",
+            "width": "650px",
+            "height": "60px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "20px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-9",
+          "text": "每次修改都有来源，可查看旧版并恢复为新版本",
+          "bounds": {
+            "x": 300,
+            "y": 120,
+            "width": 1000,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "300px",
+            "top": "120px",
+            "width": "1000px",
+            "height": "70px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "26px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-10",
+          "text": "V3　直接编辑 · 本地用户 处理建议：补充现场复核说明 查看版本　恢复为新版本",
+          "bounds": {
+            "x": 300,
+            "y": 230,
+            "width": 1000,
+            "height": 120
+          },
+          "style": {
+            "position": "absolute",
+            "left": "300px",
+            "top": "230px",
+            "width": "1000px",
+            "height": "120px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-11",
+          "text": "V2　提示词修改 · 本地用户 “将第3条缺陷改为白华” 保留原始证据与模型分类来源",
+          "bounds": {
+            "x": 300,
+            "y": 375,
+            "width": 1000,
+            "height": 120
+          },
+          "style": {
+            "position": "absolute",
+            "left": "300px",
+            "top": "375px",
+            "width": "1000px",
+            "height": "120px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-12",
+          "text": "V1　模型生成 · 待人工复核 输入素材、工具调用及报告证据可追溯",
+          "bounds": {
+            "x": 300,
+            "y": 520,
+            "width": 1000,
+            "height": 120
+          },
+          "style": {
+            "position": "absolute",
+            "left": "300px",
+            "top": "520px",
+            "width": "1000px",
+            "height": "120px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-13",
+          "text": "冲突处理：报告已被其他窗口修改时，提示刷新，不覆盖新版本。",
+          "bounds": {
+            "x": 300,
+            "y": 700,
+            "width": 1000,
+            "height": 80
+          },
+          "style": {
+            "position": "absolute",
+            "left": "300px",
+            "top": "700px",
+            "width": "1000px",
+            "height": "80px",
+            "background": "transparent",
+            "color": "#778196",
+            "font-size": "18px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 开发规范",
+      "width": 1440,
+      "height": 900,
+      "elements": [
+        {
+          "id": "element-1",
+          "text": "FacadeFixer · 蓝白轻量界面开发规范",
+          "bounds": {
+            "x": 50,
+            "y": 35,
+            "width": 1300,
+            "height": 80
+          },
+          "style": {
+            "position": "absolute",
+            "left": "50px",
+            "top": "35px",
+            "width": "1300px",
+            "height": "80px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "34px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-2",
+          "text": "1440 × 900　侧栏 220px　对话区 490px　报告区 730px",
+          "bounds": {
+            "x": 50,
+            "y": 140,
+            "width": 1250,
+            "height": 70
+          },
+          "style": {
+            "position": "absolute",
+            "left": "50px",
+            "top": "140px",
+            "width": "1250px",
+            "height": "70px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "23px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-3",
+          "text": "Primary　#3563E9",
+          "bounds": {
+            "x": 65,
+            "y": 255,
+            "width": 290,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "65px",
+            "top": "255px",
+            "width": "290px",
+            "height": "100px",
+            "background": "#3563E9",
+            "color": "white",
+            "font-size": "20px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-4",
+          "text": "Text　#172033",
+          "bounds": {
+            "x": 385,
+            "y": 255,
+            "width": 290,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "385px",
+            "top": "255px",
+            "width": "290px",
+            "height": "100px",
+            "background": "#172033",
+            "color": "white",
+            "font-size": "20px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-5",
+          "text": "Canvas　#FFFFFF",
+          "bounds": {
+            "x": 705,
+            "y": 255,
+            "width": 290,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "705px",
+            "top": "255px",
+            "width": "290px",
+            "height": "100px",
+            "background": "white",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-6",
+          "text": "Sidebar　#F7F8FA",
+          "bounds": {
+            "x": 1025,
+            "y": 255,
+            "width": 290,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "1025px",
+            "top": "255px",
+            "width": "290px",
+            "height": "100px",
+            "background": "#F7F8FA",
+            "color": "#172033",
+            "font-size": "16px",
+            "border": "1px solid #E5E9F0",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-7",
+          "text": "字号 14 / 16 / 20 / 30　间距 4 / 8 / 12 / 16 / 24 / 32 / 48　圆角 8 / 12 / 16 / 24",
+          "bounds": {
+            "x": 50,
+            "y": 415,
+            "width": 1300,
+            "height": 90
+          },
+          "style": {
+            "position": "absolute",
+            "left": "50px",
+            "top": "415px",
+            "width": "1300px",
+            "height": "90px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "22px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-8",
+          "text": "组件：历史会话、附件卡片、提示词输入框、资料抽屉、报告编辑器、版本记录、错误提示",
+          "bounds": {
+            "x": 50,
+            "y": 540,
+            "width": 1300,
+            "height": 100
+          },
+          "style": {
+            "position": "absolute",
+            "left": "50px",
+            "top": "540px",
+            "width": "1300px",
+            "height": "100px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "22px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        },
+        {
+          "id": "element-9",
+          "text": "交互：上传 → 补充资料 → 生成 → 编辑 → 导出。加载时禁止重复提交；失败明确显示原因并保留素材。 窄屏：折叠侧栏，对话 / 报告切换。所有内容为可编辑文字与布局元素，非截图。",
+          "bounds": {
+            "x": 50,
+            "y": 680,
+            "width": 1300,
+            "height": 130
+          },
+          "style": {
+            "position": "absolute",
+            "left": "50px",
+            "top": "680px",
+            "width": "1300px",
+            "height": "130px",
+            "background": "transparent",
+            "color": "#172033",
+            "font-size": "20px",
+            "border": "none",
+            "border-radius": "12px",
+            "padding": "16px",
+            "box-sizing": "border-box",
+            "line-height": "1.6"
+          }
+        }
+      ]
+    }
+  ]
+}

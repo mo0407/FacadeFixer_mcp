@@ -1,4 +1,4 @@
-param([string]$Python = "", [switch]$SkipUpstream)
+param([string]$Python = "", [switch]$SkipUpstream, [switch]$Web)
 $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
 $TaskCache = Join-Path $ProjectRoot '.uv-cache'
@@ -15,6 +15,10 @@ if (-not (Test-Path -LiteralPath $TaskPython)) {
 if ($LASTEXITCODE -ne 0) { throw 'Failed to install dependencies' }
 & uv --cache-dir $TaskCache pip install --python $TaskPython -e $ProjectRoot --no-deps
 if ($LASTEXITCODE -ne 0) { throw 'Failed to install project' }
+if ($Web) {
+    & uv --cache-dir $TaskCache pip install --python $TaskPython 'starlette>=0.40' 'uvicorn>=0.30' 'pypdf>=5,<7'
+    if ($LASTEXITCODE -ne 0) { throw 'Failed to install web dependencies' }
+}
 if (-not $SkipUpstream) {
     $VendorRoot = Join-Path $ProjectRoot 'vendor'
     New-Item -ItemType Directory -Path $VendorRoot -Force | Out-Null

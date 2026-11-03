@@ -24,5 +24,8 @@
 .report-reference [contenteditable=true]:focus{outline:1px solid #3563e9;background:#f6f8ff}
 .report-reference .detail-title{font-size:18px}
 .report-reference .draft-note{color:#60708a;font:11px/1.6 sans-serif}
+.report-reference [data-row][data-key="type"],.report-reference [data-field="severity"],.report-reference [data-field="advice_html"],.report-reference [data-summary-key]{font-weight:700}
+.report-reference .critical-result,.report-reference .critical-result *{color:#c62828!important;font-weight:700}
+.report-reference [data-row][data-key="type"]:disabled{opacity:1;color:#111;-webkit-text-fill-color:#111}
 @media(max-width:1100px){.report-reference .photo-row{grid-template-columns:repeat(2,minmax(0,1fr))}.report-reference table{font-size:11px}.report-reference .summary-table{font-size:9px}}
 @media print{.report-reference .photo-row{grid-template-columns:repeat(4,minmax(0,1fr))}.report-reference .photo-box img{height:6cm}.report-reference .cover{min-height:24cm}.report-reference .cover h1{padding-top:6cm}.report-reference [contenteditable]{outline:none;background:white}.report-reference .annotate-row{display:none}}

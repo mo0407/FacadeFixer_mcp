@@ -1,0 +1,28 @@
+.report-reference{font-family:SimSun,"Microsoft YaHei",serif;font-size:14px;line-height:1.6;color:#111}
+.report-reference .cover{text-align:center;min-height:700px}
+.report-reference .cover h1{padding-top:120px;font-size:30px!important}
+.report-reference .cover>p{margin-top:32px!important}
+.report-reference .reference-provenance{margin-top:60px!important;font:12px/1.8 sans-serif;color:#52678b}
+.report-reference table{width:100%;border-collapse:collapse;table-layout:fixed;margin:14px 0;font-size:12px}
+.report-reference th,.report-reference td{border:1px solid #444;padding:6px;overflow-wrap:anywhere;vertical-align:middle}
+.report-reference th{background:#eee;text-align:center}
+.report-reference .info-table td:nth-child(odd){background:#f5f5f5;width:15%;font-weight:bold}
+.report-reference .info-table td:nth-child(even){width:35%}
+.report-reference .info-table td[colspan]{width:auto;font-weight:normal}
+.report-reference .summary-table{font-size:10px}
+.report-reference .summary-table td{padding:4px}
+.report-reference .summary-table td:nth-child(5n+3){font-size:9px;word-break:break-all}
+.report-reference .photo-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:18px 0}
+.report-reference .photo-box{min-width:0;text-align:center}
+.report-reference .photo-box img,.report-reference .evidence-missing{width:100%;height:190px;object-fit:contain;border:1px solid #ddd;background:#fafafa}
+.report-reference .caption{font-size:11px;color:#555;line-height:1.5;margin-top:5px}
+.report-reference .sample-text{color:#3263ad;font-style:italic}
+.report-reference select{width:100%;font:inherit;padding:5px}
+.report-reference .severity-1{color:#3563e9}
+.report-reference .editable{min-height:24px;border-radius:3px;outline-offset:2px}
+.report-reference [contenteditable=true]:hover{background:#f0f5ff}
+.report-reference [contenteditable=true]:focus{outline:1px solid #3563e9;background:#f6f8ff}
+.report-reference .detail-title{font-size:18px}
+.report-reference .draft-note{color:#60708a;font:11px/1.6 sans-serif}
+@media(max-width:1100px){.report-reference .photo-row{grid-template-columns:repeat(2,minmax(0,1fr))}.report-reference table{font-size:11px}.report-reference .summary-table{font-size:9px}}
+@media print{.report-reference .photo-row{grid-template-columns:repeat(4,minmax(0,1fr))}.report-reference .photo-box img{height:6cm}.report-reference .cover{min-height:24cm}.report-reference .cover h1{padding-top:6cm}.report-reference [contenteditable]{outline:none;background:white}.report-reference .annotate-row{display:none}}

@@ -26,7 +26,7 @@ def server_config(workspace: Path, allowed_roots: list[Path], mask_repo: Path | 
     source = str(Path(__file__).resolve().parents[1])
     env["PYTHONPATH"] = source + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
     return {"mcpServers":{name:{"command":sys.executable,"args":["-m",module],"env":env}
-            for name,module in {"survey":"facade_mcp.survey_server","mask":"facade_mcp.mask_server","report":"facade_mcp.report_server","model":"facade_mcp.model_server"}.items()}}
+            for name,module in {"survey":"facade_mcp.survey_server","mask":"facade_mcp.mask_server","report":"facade_mcp.report_server","model":"facade_mcp.model_server","video":"facade_mcp.video_server"}.items()}}
 
 
 def unpack_tool_result(result: Any) -> dict:
@@ -220,6 +220,7 @@ async def run_agent(prompt:str,store:ArtifactStore,mask_repo:Path|None=None,mode
     llm = ChatOpenAI(**kwargs)
     job_id,directory = store.create_job("agent",{"prompt":prompt,"model":model_name})
     policy = """你是建筑外立面巡检流程助手，使用提供的MCP工具工作。先明确建筑坐标和高度，然后规划航线草案、整理已提供照片、获得缺陷框、生成mask、生成报告草稿。航线不连接真实飞行器，也不是已验证的可执行航线。没有照片时只生成规划并说明缺失。可先用facade_models_list查看本地模型和依赖是否就绪，按用户目标选择已配置的本地检测、分割或点提示精修工具；不能下载权重或编造可用能力。没有检测服务、可用本地检测模型或真实标注时停止识别阶段，不能编造bbox。使用每个工具真实返回的artifact URI/路径；不要猜测中间文件。API mask工具可能付费，只有用户明确要求API分割且服务配置启用时才使用；本地分割模型和OpenCV不需要付费API授权。模型结果始终待复核，不把模型输出标成正式量测、专家确认或脱敏已批准。检测置信度和分割模型评分不能当作准确率；没有真值不报告准确率。保留未知类别、空mask和失败实例。最终列出可打开的产物路径和未完成步骤。"""
+    policy += " 对于已经拍摄的视频，不要求补做航线：使用video_inspect和video_extract_frames准备原帧，再调用已有检测与分割工具。video_pair_frames只给时间候选；总览需视觉复核，拼接接缝不能当缺陷。跨帧合并由明确的证据对应决定，不按类别相同自动合并。video_curate_review保存代表图、原尺寸mask及修改原因，video_report_html/pdf生成视频证据草稿。热像缺少测温数据时仅记录伪彩色异常，禁止推断温差或确诊空鼓。"
     try:
         transport = MCPConfigTransport(server_config(store.root,store.allowed_input_roots,mask_repo),name_as_prefix=False)
         async with MCPAdapter(transport) as adapter:

@@ -164,7 +164,7 @@ def test_four_server_config_and_cli_export_exclude_process_secrets(tmp_path, mon
     monkeypatch.setenv("UNRELATED_PASSWORD", "secret-sentinel-unrelated")
     workspace = tmp_path / "workspace"
     direct = server_config(workspace, [tmp_path])
-    assert set(direct["mcpServers"]) == {"survey", "mask", "report", "model"}
+    assert set(direct["mcpServers"]) == {"survey", "mask", "report", "model", "video"}
     assert direct["mcpServers"]["model"]["args"] == ["-m", "facade_mcp.model_server"]
     destination = tmp_path / "mcp.json"
     monkeypatch.setattr(sys, "argv", ["facade-workflow", "--workspace", str(workspace), "mcp-config", "--output", str(destination)])

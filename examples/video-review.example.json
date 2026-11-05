@@ -1,0 +1,28 @@
+{
+  "project": {"building_id": "B001", "facade_id": "south", "inspection_id": "inspection-001"},
+  "actor": "operator-001",
+  "reason": "原始帧复核并选择代表图",
+  "defects": [
+    {
+      "defect_id": "D01",
+      "title": "窗台表层损伤候选",
+      "observation": "局部白色表层缺失，灰色底层可见",
+      "interpretation": "疑似表层剥离，深度待现场确认",
+      "recommendation": "检查表面附着与松动情况",
+      "review_status": "candidate",
+      "evidence": [
+        {
+          "evidence_id": "E01",
+          "modality": "visible",
+          "image_path": "artifact:<replace-with-extracted-frame-id>",
+          "frame_id": "<replace-with-frame-id>",
+          "seconds": 5.2,
+          "bbox_xyxy": [100, 100, 300, 300],
+          "mask_path": "artifact:<replace-with-mask-id>",
+          "mask_method": "mobile_sam bbox; visually reviewed",
+          "mask_semantics": "visible_candidate"
+        }
+      ]
+    }
+  ]
+}

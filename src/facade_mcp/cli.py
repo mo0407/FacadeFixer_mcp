@@ -41,7 +41,7 @@ def main():
     agent = sub.add_parser("agent",help="LangChain模型自主调度MCP，需要自己的模型配置")
     agent.add_argument("--prompt",required=True)
     agent.add_argument("--model")
-    config = sub.add_parser("mcp-config",help="输出四个stdio服务的客户端配置（survey、mask、report、model）")
+    config = sub.add_parser("mcp-config",help="输出五个stdio服务的客户端配置（survey、mask、report、model、video）")
     config.add_argument("--output",type=Path)
     sub.add_parser("models",help="检查本地模型配置、权重和依赖（不执行模型推理）")
     args = parser.parse_args()

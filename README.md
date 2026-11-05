@@ -1,6 +1,8 @@
 # FacadeFixer MCP + LangChain
 
-建筑外立面巡检工具集：将建筑资料、航线草案、图片归档、缺陷检测、Mask 生成和报告草稿封装成 **4 个 MCP 服务、21 个工具**，供 MCP 客户端或 LangChain/LangGraph 调用。
+建筑外立面巡检工具集：将建筑资料、航线草案、视频与图片处理、缺陷检测、Mask 生成和报告草稿封装成 **5 个 MCP 服务、30 个工具**，供 MCP 客户端或 LangChain/LangGraph 调用。
+
+**视频巡检新增入口：** [Video MCP 完整说明](docs/video-mcp.md)整理了每个工具的输入输出、双模态处理、原帧检测、缺陷去重复核、Mask、立面定位与 HTML/PDF 导出。已有图片工作流保持原行为；视频通过新增工具逐步调用或由 Agent 调度，不宣称完全自动诊断。
 
 ```mermaid
 flowchart LR
@@ -15,6 +17,7 @@ flowchart LR
 
 ## 导航
 
+- [本机后端部署](docs/local-backend.md)：一键启动、停止网页后端和五个 MCP 服务，连接真实本地模型。
 - [轻量网页端](docs/web-app.md)：上传素材、真实 MCP 分析、可编辑报告、提示词修改与版本记录。
 - [Canva 开发设计稿与交付规范](docs/ui-handoff/README.md)。
 - [快速开始](#快速开始)
@@ -25,10 +28,13 @@ flowchart LR
 - [Model MCP](#model-mcp)：本地检测模型、分割模型、正负点精修。
 - [Mask MCP](#mask-mcp)：OpenCV、API Mask、已有 Mask 的 OpenCV 精修。
 - [Report MCP](#report-mcp)：报告草稿、完整性校验、HTML 导出。
+- [Video MCP](docs/video-mcp.md)：视频检查、抽帧、时间配对、跟踪与总览、版本化复核台账、HTML/PDF。
 - [编排与调用示例](#编排与调用示例)
 - [验证与代码入口](#验证与代码入口)
 
 ## 快速开始
+
+**在另一台 Windows 电脑部署完整后端：** 按[从零本地部署](docs/local-backend.md)准备模型源码和两份权重，运行 `./setup.ps1 -Web`，复制[本机配置模板](deploy/local.env.example)，再运行 `./run_backend.ps1 Start`。网页和五个 MCP 服务会一起启动；文档包含真实图片验收和停止、重启方法。
 
 **想直接使用网页界面？** 运行 `./setup.ps1 -Web -SkipUpstream`，填写 `.env` 中的模型路径，再运行 `./run_web.ps1`，打开 <http://127.0.0.1:8780>。完整步骤见 [网页端说明](docs/web-app.md)。原 MCP 服务的 HTTP 端口和这里的网页端端口相互独立。
 
@@ -67,6 +73,7 @@ Model MCP 还需要另行准备 `FacadeFixer-main` 源码、模型运行环境�
 | 服务 | 工具数 | 主要输入 → 输出 | Python 模块 | HTTP 默认端口 |
 |---|---:|---|---|---:|
 | Survey | 5 | 建筑资料/照片 → 航线草案、素材清单、检测框 | `facade_mcp.survey_server` | 8761 |
+| Video | 9 | 视频/复核记录 → 原帧、对应候选、立面总览、版本台账、HTML/PDF | `facade_mcp.video_server` | 8765 |
 | Model | 6 | 照片/检测框/点提示 → 本地模型检测结果、Mask、新版本 | `facade_mcp.model_server` | 8764 |
 | Mask | 6 | 原图 + bbox + 类别/已有 Mask → 分割与精修结果 | `facade_mcp.mask_server` | 8762 |
 | Report | 4 | 项目资料 + 检测/分割结果 → 报告 JSON、检查结果、HTML | `facade_mcp.report_server` | 8763 |
@@ -78,7 +85,7 @@ Model MCP 还需要另行准备 `FacadeFixer-main` 源码、模型运行环境�
 - 要使用上游 OpenCV 算法、已授权的图像 API，或对已有 Mask 做 OpenCV 精修：使用 Mask。
 - 要汇总证据、检查资料完整性并生成可浏览报告：使用 Report。
 
-四个服务默认使用 **stdio**，可以单独运行，也可通过同一配置统一连接：
+五个服务默认使用 **stdio**，可以单独运行，也可通过同一配置统一连接：
 
 ```powershell
 .\.venv\Scripts\python.exe -m facade_mcp.cli mcp-config --output .\mcp.local.json
@@ -139,7 +146,7 @@ flowchart TD
 ```mermaid
 flowchart LR
     A["用户：执行命令或发送对话"] --> B["调用方：LangGraph / AI 客户端"]
-    B -->|"MCP 协议：stdio 或 HTTP"| C["四个 MCP 服务"]
+    B -->|"MCP 协议：stdio 或 HTTP"| C["五个 MCP 服务"]
     C --> D["本地算法与模型：YOLO、SAM、OpenCV"]
     C --> E["外部检测或分割 API：仅在选择对应方式时"]
     C --> F["报告生成程序"]
@@ -588,7 +595,7 @@ CLI 配置中的照片路径、`annotation_path` 相对工作流文件所在目�
 
 ### 自主调度：LangChain Agent
 
-Agent 从同一配置动态发现 21 个工具，由语言模型选择下一步工具和参数。只有此模式额外需要支持 tool calling 的 LLM：
+Agent 从同一配置动态发现 30 个工具，由语言模型选择下一步工具和参数。只有此模式额外需要支持 tool calling 的 LLM：
 
 ```powershell
 $env:FACADE_LLM_MODEL='你的模型ID'
@@ -633,7 +640,7 @@ $env:FACADE_MASK_REPO='E:\repos\FacadeFixer_mask_api'
 .\.venv\Scripts\python.exe -m facade_mcp.cli models
 ```
 
-发布前完整测试为 **105 项通过**。测试覆盖真实 OpenCV、坐标/EXIF/RLE/并集、原图与资产哈希、未知类别保留、报告草稿、HTML、安全边界、四个 stdio MCP 的完整流程及 LangChain 工具循环。API Mask 测试不发送真实付费请求。
+原有测试覆盖真实 OpenCV、坐标/EXIF/RLE/并集、原图与资产哈希、未知类别保留、报告草稿、HTML、安全边界及 LangChain 工具循环。新增 `tests/test_video_service.py` 覆盖视频帧、时间配对、运动跟踪、复核版本、热像语义限制和真实 stdio 调用；以当前 `python -m pytest -q` 输出为准。API Mask 测试不发送真实付费请求。
 
 真实照片示例来自上游公开样本，坐标仅用于软件链路演示，不代表照片定位。历史验证产物未随仓库提交；运行后根据 CLI 返回的 `outputs.rendered.html.path` 打开当前报告。运行成功与模型效果评价是两类结果，有参考标注或人工核实数据后才能计算准确率等指标。
 
